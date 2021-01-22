@@ -6,4 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".settings">
 
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Settings"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="30dp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="372dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="257dp"
+        android:layout_height="47dp"
+        android:background="#F44336"
+        android:text="Change Password"
+        app:backgroundTint="FFFFFF"
+        tools:layout_editor_absoluteX="33dp"
+        tools:layout_editor_absoluteY="94dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
