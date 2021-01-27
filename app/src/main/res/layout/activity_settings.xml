@@ -16,22 +16,61 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="30dp" />
 
+    <EditText
+        android:id="@+id/editTextTextPersonName8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Sounds and Notifications"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="377dp" />
+
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="372dp" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="348dp" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Change Phone Number"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="228dp" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Change Username"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="112dp" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Change Password"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="171dp" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="257dp"
-        android:layout_height="47dp"
-        android:background="#F44336"
-        android:text="Change Password"
-        app:backgroundTint="FFFFFF"
-        tools:layout_editor_absoluteX="33dp"
-        tools:layout_editor_absoluteY="94dp" />
+        android:id="@+id/button2"
+        android:layout_width="333dp"
+        android:layout_height="51dp"
+        android:text="Button"
+        app:backgroundTint="#F44336"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="655dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
