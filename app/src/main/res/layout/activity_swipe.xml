@@ -87,20 +87,35 @@
         app:srcCompat="@drawable/ic_settings"
         tools:ignore="VectorDrawableCompat" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="123dp"
-        android:layout_height="128dp"
-        app:srcCompat="@drawable/up_img"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="574dp" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        app:backgroundTint="#F44336"
+        app:fabCustomSize="100dp"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="75dp"
+        app:srcCompat="@drawable/ic_baseline_thumb_down_24" />
 
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="128dp"
-        android:layout_height="141dp"
-        app:srcCompat="@drawable/down_img"
-        tools:layout_editor_absoluteX="252dp"
-        tools:layout_editor_absoluteY="561dp" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        app:backgroundTint="#32CD32"
+        app:fabCustomSize="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="75dp"
+        app:srcCompat="@drawable/ic_baseline_thumb_up_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
