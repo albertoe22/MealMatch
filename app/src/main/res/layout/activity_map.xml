@@ -80,6 +80,8 @@
         android:layout_marginRight="28dp"
         android:layout_marginBottom="28dp"
         android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="@string/back"
         app:backgroundTint="#F44336"
         app:layout_constraintBottom_toBottomOf="@+id/mapView"
         app:layout_constraintEnd_toEndOf="parent"
