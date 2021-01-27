@@ -10,33 +10,34 @@
         android:id="@+id/background"
         android:layout_width="wrap_content"
         android:layout_height="550dp"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/welcome"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        tools:srcCompat="@drawable/food_image_1" />
 
     <EditText
         android:id="@+id/welcome"
         android:layout_width="0dp"
         android:layout_height="90dp"
-        android:background="#F44336"
+        android:background="#A35656"
         android:gravity="center"
         android:inputType="textPersonName"
         android:text="Welcome to Meal Match"
         android:textColor="#fff"
         android:textSize="30sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/startButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/startButton" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <EditText
         android:id="@+id/startButton"
         android:layout_width="0dp"
         android:layout_height="90dp"
-        android:backgroundTint="#F44336"
+        android:background="#F44336"
         android:gravity="center"
         android:text="Tap to Start"
         android:textAllCaps="false"
