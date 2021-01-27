@@ -87,20 +87,20 @@
         app:srcCompat="@drawable/ic_settings"
         tools:ignore="VectorDrawableCompat" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="631dp" />
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="123dp"
+        android:layout_height="128dp"
+        app:srcCompat="@drawable/up_img"
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="574dp" />
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="306dp"
-        tools:layout_editor_absoluteY="637dp" />
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="128dp"
+        android:layout_height="141dp"
+        app:srcCompat="@drawable/down_img"
+        tools:layout_editor_absoluteX="252dp"
+        tools:layout_editor_absoluteY="561dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
