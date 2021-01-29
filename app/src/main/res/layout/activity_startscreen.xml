@@ -16,15 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/welcome"
-        tools:srcCompat="@drawable/food_image_1" />
+        android:src="@drawable/food_image_1" />
 
-    <EditText
+    <TextView
         android:id="@+id/welcome"
         android:layout_width="0dp"
         android:layout_height="90dp"
         android:background="#A35656"
         android:gravity="center"
-        android:inputType="textPersonName"
         android:text="Welcome to Meal Match"
         android:textColor="#fff"
         android:textSize="30sp"
@@ -33,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/startButton"
         android:layout_width="0dp"
         android:layout_height="90dp"
