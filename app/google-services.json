@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "503571256548",
+    "project_id": "meal-match-login",
+    "storage_bucket": "meal-match-login.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503571256548:android:d3557e63a82b5378b8c8f1",
+        "android_client_info": {
+          "package_name": "com.example.prototype"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "503571256548-8vi1srd1hbfptmsmvc6mf944f1qm60c1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVdDnMuH0bkVI__leaXD2WByJ5qItAK1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503571256548-8vi1srd1hbfptmsmvc6mf944f1qm60c1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
