@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/background"
         android:layout_width="wrap_content"
-        android:layout_height="550dp"
+        android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -28,7 +28,6 @@
         android:textColor="#fff"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="background"
         app:layout_constraintBottom_toTopOf="@id/startButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
