@@ -2,6 +2,7 @@ package com.example.prototype;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.os.Bundle;
 
 public class SwipeActivity extends AppCompatActivity {
