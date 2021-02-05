@@ -17,12 +17,6 @@ public class startscreen extends AppCompatActivity {
     }
 
     public void toLogin(View view) {
-        Intent intent2 = new Intent(this, login.class);
-        startActivity(intent2);
-    }
-
-    public void toRegister(View view) {
-        Intent intent2 = new Intent(this, register.class);
-        startActivity(intent2);
+        startActivity(new Intent(this, login.class));
     }
 }

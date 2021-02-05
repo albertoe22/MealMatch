@@ -16,10 +16,9 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
     }
 
-    EditText username = (EditText) findViewById(R.id.username);
-    EditText password = (EditText) findViewById(R.id.password);
-
     public void toSwipe(View view) {
+        EditText username = (EditText) findViewById(R.id.username);
+        EditText password = (EditText) findViewById(R.id.password);
         if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin")) {
 
             startActivity(new Intent(this, SwipeActivity.class));
