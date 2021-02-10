@@ -7,42 +7,57 @@
     tools:context=".settings">
 
     <TextView
-        android:id="@+id/settingsText"
+        android:id="@+id/settingsHeader"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:background="#F44336"
         android:gravity="center"
+        android:text="Settings"
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:text="Settings"
         app:layout_constraintBottom_toTopOf="@+id/changeUsernameText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/changeUsernameText"
+        android:id="@+id/accountHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
+        android:background="#FDFDFD"
+        android:ems="10"
+        android:text="Account Settings"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsHeader" />
+
+    <TextView
+        android:id="@+id/changeUsernameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:text="Change Username"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/settingsText"
+        app:layout_constraintTop_toBottomOf="@+id/accountHeader"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/changePasswordText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:ems="10"
@@ -56,7 +71,7 @@
         android:id="@+id/changePhoneNumberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="64dp"
@@ -64,36 +79,68 @@
         android:text="Change Phone Number"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changePasswordText" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toTopOf="@id/backButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
-        android:id="@+id/soundsAndNotificationsText"
+        android:id="@+id/applicationHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginBottom="233dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="64dp"
         android:ems="10"
-        android:text="Sounds and Notifications"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintBottom_toTopOf="@+id/backButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:text="Application Settings"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/changePhoneNumberText" />
+
+    <TextView
+        android:id="@+id/toggleDarkMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="64dp"
+        android:ems="10"
+        android:text="Dark Mode"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/applicationHeader" />
+
+    <TextView
+        android:id="@+id/changeNotifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="64dp"
+        android:ems="10"
+        android:text="Sounds &amp; Notifications"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toggleDarkMode" />
+
+    <TextView
+        android:id="@+id/resetMatches"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="64dp"
+        android:ems="10"
+        android:text="Reset Matches"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changeNotifications" />
 
     <Button
         android:id="@+id/signOut"
@@ -106,6 +153,7 @@
         android:layout_marginRight="39dp"
         android:layout_marginBottom="16dp"
         android:text="Sign Out"
+        android:textColor="#fff"
         app:backgroundTint="#F44336"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,16 +166,15 @@
         android:layout_height="51dp"
         android:layout_marginStart="39dp"
         android:layout_marginLeft="39dp"
-        android:layout_marginTop="306dp"
         android:layout_marginEnd="39dp"
         android:layout_marginRight="39dp"
         android:layout_marginBottom="25dp"
         android:onClick="toSwipe"
         android:text="Back"
+        android:textColor="#fff"
         app:backgroundTint="#F44336"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
