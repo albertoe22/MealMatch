@@ -42,7 +42,7 @@ public class register extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(register.this,"Successful", Toast.LENGTH_LONG).show();
+                            Toast.makeText(register.this,"Registration Successful", Toast.LENGTH_LONG).show();
                             toLogin(v);
                         }
                         else{
