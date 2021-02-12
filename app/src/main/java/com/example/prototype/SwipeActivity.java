@@ -12,14 +12,14 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
 public class SwipeActivity extends AppCompatActivity {
-
+    String apiKey = "AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
+        Places.initialize(getApplicationContext(), apiKey);
+        PlacesClient placesClient = Places.createClient(this);
     }
-    //Places.initialize(getApplicationContext(), apiKey);
-    PlacesClient placesClient = Places.createClient(this);
 
     public void toMatches(View view) {
         startActivity(new Intent(this, Matches.class));
