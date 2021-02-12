@@ -19,7 +19,7 @@ public class SwipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_swipe);
     }
     //Places.initialize(getApplicationContext(), apiKey);
-    PlacesClient placesClient = Places.createClient(this);
+    //PlacesClient placesClient = Places.createClient(this);
 
     public void toMatches(View view) {
         startActivity(new Intent(this, Matches.class));
