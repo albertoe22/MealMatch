@@ -3,6 +3,8 @@ package com.example.prototype;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +27,7 @@ public class Stack extends RecyclerView.Adapter<Stack.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        holder.setData(cards.get(position));
     }
 
     @Override
@@ -34,9 +36,17 @@ public class Stack extends RecyclerView.Adapter<Stack.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-
+        TextView location;
+        ImageView picture;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            location = itemView.findViewById(R.id.location);
+            picture = itemView.findViewById(R.id.menuItem);
+        }
+
+        public void setData(Card card) {
+            location.setText(card.getLocation());
+            //need api to set image i think
         }
     }
 }
