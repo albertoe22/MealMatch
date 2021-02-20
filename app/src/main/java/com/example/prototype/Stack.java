@@ -27,10 +27,17 @@ public class Stack extends RecyclerView.Adapter<Stack.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
     }
-
     @Override
     public int getItemCount() {
         return cards.size();
+    }
+
+    public List<Card> getItems() {
+        return cards;
+    }
+
+    public void setItems(List<Card> c) {
+        cards = c;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
