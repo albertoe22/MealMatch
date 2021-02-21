@@ -8,12 +8,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
+
 public class login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
     }
 
     public void toSwipe(View view) {
@@ -21,7 +24,7 @@ public class login extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.password);
         if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin")) {
 
-            startActivity(new Intent(this, SwipeActivity.class));
+            startActivity(new Intent(this, location.class));
             //correct password
         } else {
             //wrong password
