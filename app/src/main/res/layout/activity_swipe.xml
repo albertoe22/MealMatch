@@ -130,14 +130,17 @@
         app:maxImageSize="75dp"
         app:srcCompat="@drawable/ic_baseline_thumb_up_24" />
 
-    <com.yuyakaido.android.cardstackview.CardStackView
-        android:id="@+id/cardstack"
-        android:layout_width="412dp"
-        android:layout_height="519dp"
+    <com.lorentzos.flingswipe.SwipeFlingAdapterView
+        android:id="@+id/cards"
+        android:layout_width="368dp"
+        android:layout_height="480dp"
+        android:background="#ffeee9e2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar5"
-        app:layout_constraintVertical_bias="0.110000014" />
+        app:layout_constraintVertical_bias="0.07999998"
+        app:rotation_degrees="15.5"
+        tools:context=".MyActivity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
