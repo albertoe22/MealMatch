@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.android.libraries.places.api.Places;
 
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -81,6 +82,18 @@ public class SwipeActivity extends AppCompatActivity {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
                 Toast.makeText(SwipeActivity.this,"click", Toast.LENGTH_SHORT).show();
+            }
+        });
+        FloatingActionButton left = (FloatingActionButton) findViewById(R.id.dislike);
+        left.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                flingContainer.getTopCardListener().selectLeft();
+            }
+        });
+        FloatingActionButton right = (FloatingActionButton) findViewById(R.id.like);
+        left.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                flingContainer.getTopCardListener().selectRight();
             }
         });
     }
