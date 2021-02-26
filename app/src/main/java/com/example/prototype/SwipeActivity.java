@@ -91,7 +91,7 @@ public class SwipeActivity extends AppCompatActivity {
             }
         });
         FloatingActionButton right = (FloatingActionButton) findViewById(R.id.like);
-        left.setOnClickListener(new View.OnClickListener(){
+        right.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 flingContainer.getTopCardListener().selectRight();
             }

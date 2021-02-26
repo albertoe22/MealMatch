@@ -31,15 +31,28 @@
             android:alpha="0"
             android:background="#5AF" />
 
-        <TextView
-            android:id="@+id/test"
+        <LinearLayout
+            android:id="@+id/fullcard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#E339"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="40sp"
-            tools:text="test" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="108dp"
+                app:srcCompat="@drawable/food_image_1" />
+
+            <TextView
+                android:id="@+id/test"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:background = "#F44336"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="40sp"
+                tools:text="test" />
+        </LinearLayout>
 
     </FrameLayout>
 
