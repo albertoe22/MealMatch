@@ -16,27 +16,34 @@ import android.os.Bundle;
 
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
 
-import com.google.android.libraries.places.api.net.PlacesClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class location extends AppCompatActivity {
     String apiKey = "AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
     FusedLocationProviderClient fusedLocationProviderClient;
+    private RequestQueue mQueue;
     TextView latTextView, lonTextView;
+    String placeurl, placeN;
+    double lat, lon;
     int PERMISSION_ID = 44;
 
     @Override
@@ -46,18 +53,90 @@ public class location extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         latTextView = findViewById(R.id.latTextView);
         lonTextView = findViewById(R.id.lonTextView);
-        Places.initialize(getApplicationContext(), apiKey);
-        PlacesClient placesClient = Places.createClient(this);
+       // Places.initialize(getApplicationContext(), apiKey);
+        //PlacesClient placesClient = Places.createClient(this);
+        mQueue = Volley.newRequestQueue(this);
         getLastLocation();
 
+    }
 
+    private void jsonParse() {
+        api();
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, placeurl, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // Todo: Get all place IDs into an array
+                            JSONArray jsonArray = response.getJSONArray("results");
+                            //String[] arrayID = new String[jsonArray.length()];
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject place = jsonArray.getJSONObject(i);
+                                String placeID = place.getString("place_id");
+                                placeN = "ChIJB_-Q0lTqwoARJrHlEv4DkTA";
+                                System.out.println(placeID);
+                            }
+                            jsonParsePics();
+
+                            //JSONObject jsonObject = new JSONObject(String.valueOf(response.getJSONObject("result")));
+                            //String name = jsonObject.getString("name");
+                            //String name = a.getString("name");
+                            //System.out.println(name);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mQueue.add(request);
+
+    }
+
+    private void jsonParsePics() {
+        String detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeN + "&fields=name,rating,photos&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
+        System.out.println(detailsUrl);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, detailsUrl, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    // Todo: Use photo reference on this end point to change a picture https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject jsonObject = response.getJSONObject("result");
+                            JSONArray jsonArray = jsonObject.getJSONArray("photos");
+                            /*JSONObject photos = jsonArray.getJSONObject(0);
+                            String photoRef = photos.getString("photo_reference");
+                            System.out.println("photo_REF: " + photoRef);*/
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject photos = jsonArray.getJSONObject(i);
+                                String photoRef = photos.getString("photo_reference");
+                                System.out.println("photo ref: " + photoRef);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mQueue.add(request);
     }
 
     private void api() {
         String output = "json";
-        String parameters = latTextView.getText().toString() + "," + lonTextView.getText().toString() + "&radius=3000&type=restaurant&key=" +apiKey;
-        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/" + output+ "?location=" + parameters;
-        System.out.println(url);
+        String parameters = lat + "," + lon + "&radius=3000&type=restaurant&key=" +apiKey;
+        placeurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/" + output+ "?location=" + parameters;
+        System.out.println(placeurl);
         //https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJB_-Q0lTqwoARJrHlEv4DkTA&fields=name,rating,photos&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc
         //https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc
         //ChIJhdFvgE_qwoAR_WiMjKcIamM
@@ -109,9 +188,12 @@ public class location extends AppCompatActivity {
                     // set latitude
                     latTextView.setText(String.valueOf(location.getLatitude()));
                     lonTextView.setText(String.valueOf(location.getLongitude()));
-                    System.out.println("Latitude: " + String.valueOf(location.getLatitude()));
+                    lat = location.getLatitude();
+                    lon = location.getLongitude();
+                    System.out.println(String.valueOf(location.getLatitude()));
                     System.out.println("Longitude: " + String.valueOf(location.getLongitude()));
-                    api();
+                    jsonParse();
+
                 } else {
                     // When location result is null
                     // request location
@@ -127,6 +209,8 @@ public class location extends AppCompatActivity {
                             // Initialize location
                             latTextView.setText(String.valueOf(location1.getLatitude()));
                             lonTextView.setText(String.valueOf(location1.getLongitude()));
+                            lat = (location1.getLatitude());
+                            lon = (location1.getLongitude());
                         }
 
                     };
