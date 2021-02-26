@@ -28,8 +28,13 @@ public class login extends AppCompatActivity {
             //correct password
         } else {
             //wrong password
-            Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Wrong  Credentials", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void toGoogle(View view){
+        startActivity(new Intent(this, GoogleSignInActivity.class));
+
     }
 
     public void toRegister(View view) {
