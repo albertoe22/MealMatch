@@ -24,7 +24,7 @@ public class login extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.password);
         if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin")) {
 
-            startActivity(new Intent(this, location.class));
+            startActivity(new Intent(this, SwipeActivity.class));
             //correct password
         } else {
             //wrong password
