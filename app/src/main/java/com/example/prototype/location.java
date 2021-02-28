@@ -7,15 +7,18 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.Bundle;
 
 import android.os.Looper;
 import android.provider.Settings;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 import com.google.android.gms.location.LocationCallback;
@@ -38,12 +42,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class location extends AppCompatActivity {
-    String apiKey = "AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
+    private static String apiKey = "AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
     FusedLocationProviderClient fusedLocationProviderClient;
     private RequestQueue mQueue;
-    TextView latTextView, lonTextView;
-    String placeurl, placeN;
-    double lat, lon;
+    private TextView latTextView, lonTextView;
+    private ImageView imageView;
+   // private static Context context;
+
+
+    private String placeurl, placeN, imageurl;
+    private double lat, lon;
     int PERMISSION_ID = 44;
 
     @Override
@@ -53,12 +61,14 @@ public class location extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         latTextView = findViewById(R.id.latTextView);
         lonTextView = findViewById(R.id.lonTextView);
-       // Places.initialize(getApplicationContext(), apiKey);
-        //PlacesClient placesClient = Places.createClient(this);
+        ImageView imageView = (ImageView) findViewById(R.id.imageView2);
+
+        //location.context = getApplicationContext();
+        //Glide.with(this).load("https://www.tutorialspoint.com/images/tp-logo-diamond.png").into(imageView);
         mQueue = Volley.newRequestQueue(this);
         getLastLocation();
-
     }
+
 
     private void jsonParse() {
         api();
@@ -68,14 +78,18 @@ public class location extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            // Todo: Get all place IDs into an array
+                            // Todo: 0. integrate this into the swipe actvity with cards
+                            // Todo: 1. Get all place IDs into an array/arraylist and save the result
+                            // Todo: 1.5 Check to see if it has atleast 1 photo, else don't add to array
+                            // Todo: Also need to see how you can change the range in api if you run out of places?
+
                             JSONArray jsonArray = response.getJSONArray("results");
                             //String[] arrayID = new String[jsonArray.length()];
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject place = jsonArray.getJSONObject(i);
                                 String placeID = place.getString("place_id");
                                 placeN = "ChIJB_-Q0lTqwoARJrHlEv4DkTA";
-                                System.out.println(placeID);
+                                //System.out.println(placeID);
                             }
                             jsonParsePics();
 
@@ -97,32 +111,38 @@ public class location extends AppCompatActivity {
         });
         mQueue.add(request);
 
+
     }
 
     private void jsonParsePics() {
         String detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeN + "&fields=name,rating,photos&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
         System.out.println(detailsUrl);
+        Context context = location.this;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, detailsUrl, null,
                 new Response.Listener<JSONObject>() {
                     @Override
-                    // Todo: Use photo reference on this end point to change a picture https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc
+                    // TODO: 2. Save photo links into an arraylist/hashmap, make it so that when you tap, it goes to the next image
+                    // TODO: 3. If you swipe, go to next place_id reference with photos
                     public void onResponse(JSONObject response) {
                         try {
+
                             JSONObject jsonObject = response.getJSONObject("result");
                             JSONArray jsonArray = jsonObject.getJSONArray("photos");
-                            /*JSONObject photos = jsonArray.getJSONObject(0);
+                            //for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject photos = jsonArray.getJSONObject(0);
                             String photoRef = photos.getString("photo_reference");
-                            System.out.println("photo_REF: " + photoRef);*/
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject photos = jsonArray.getJSONObject(i);
-                                String photoRef = photos.getString("photo_reference");
-                                System.out.println("photo ref: " + photoRef);
+                            imageurl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoRef + "&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
 
-                            }
-                        } catch (JSONException e) {
+                            ImageView img = (ImageView) findViewById(R.id.imageView2);
+                            Glide.with(context).load(imageurl).into(img);
+                            //}
+
+                        }
+                        catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
+
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -137,9 +157,6 @@ public class location extends AppCompatActivity {
         String parameters = lat + "," + lon + "&radius=3000&type=restaurant&key=" +apiKey;
         placeurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/" + output+ "?location=" + parameters;
         System.out.println(placeurl);
-        //https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJB_-Q0lTqwoARJrHlEv4DkTA&fields=name,rating,photos&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc
-        //https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc
-        //ChIJhdFvgE_qwoAR_WiMjKcIamM
     }
 
 
@@ -219,7 +236,7 @@ public class location extends AppCompatActivity {
                 }
             });
         }else {
-            //
+
             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
