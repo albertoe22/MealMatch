@@ -27,14 +27,13 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.android.gms.common.api.GoogleApi;
 
 
-public class GoogleSignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class GoogleSignInActivity extends AppCompatActivity {
 
     private static final String TAG = "FragmentActivity";
     private static final int RC_SIGN_IN = 1 ;
     private FirebaseAuth fbAuth;
 
     SignInButton signInButton;
-    private GoogleApi googleApi;
     private static final int SIGN_In = 1;
 
 
@@ -47,7 +46,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
 // Initialize Firebase Auth
         fbAuth = FirebaseAuth.getInstance();
         findViewById(R.id.signInWithGoogle).setOnClickListener((View.OnClickListener) this);
-
+        //default = "606705798882-3trsat941qgh9tfagmpn88m6q46d04ft.apps.googleusercontent.com"
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -100,7 +99,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
             //updateUI(null);
         }
     }
-
+ //606705798882-3trsat941qgh9tfagmpn88m6q46d04ft.apps.googleusercontent.com
     private void signIn() {
         //Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent((mGoogleApiClient));
         GoogleSignInClient mGoogleSignInClient;
@@ -184,7 +183,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
     }
 
 
-    @Override
+
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
