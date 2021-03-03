@@ -9,8 +9,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -21,12 +19,12 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.android.gms.common.api.GoogleApi;
 
 
 public class GoogleSignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -36,8 +34,10 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
     private FirebaseAuth fbAuth;
 
     SignInButton signInButton;
-    private GoogleApiClient googleApiClient;
+    private GoogleApi googleApi;
     private static final int SIGN_In = 1;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                 .requestEmail()
                 .build();
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
+        //googleApi = new GoogleApi.Settings.Builder(th)
     }
     GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -154,7 +154,9 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = fbAuth.getCurrentUser();
-                            //updateUI(user);
+                            updateUI();
+                            //startActivity(new Intent(this, SwipeActivity.class));
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -173,6 +175,11 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
 
     public void signOut(){
         FirebaseAuth.getInstance().signOut();
+
+    }
+
+    public void  updateUI(){
+        startActivity(new Intent(this, SwipeActivity.class));
 
     }
 
