@@ -15,7 +15,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,11 +29,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 
-public class GoogleSignInActivity extends AppCompatActivity {
+public class GoogleSignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "FragmentActivity";
-    private static final int RC_SIGN_IN = 0 ;
+    private static final int RC_SIGN_IN = 1 ;
     private FirebaseAuth fbAuth;
+
+    SignInButton signInButton;
+    private GoogleApiClient googleApiClient;
+    private static final int SIGN_In = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +46,16 @@ public class GoogleSignInActivity extends AppCompatActivity {
 // ...
 // Initialize Firebase Auth
         fbAuth = FirebaseAuth.getInstance();
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         findViewById(R.id.signInWithGoogle).setOnClickListener((View.OnClickListener) this);
 
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
     }
-    // Configure Google Sign In
     GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -111,6 +122,7 @@ public class GoogleSignInActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -165,5 +177,9 @@ public class GoogleSignInActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }
 
