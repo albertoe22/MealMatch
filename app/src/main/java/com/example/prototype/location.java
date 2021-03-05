@@ -1,27 +1,22 @@
 package com.example.prototype;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.Image;
 import android.os.Bundle;
-
 import android.os.Looper;
 import android.provider.Settings;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,7 +26,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
-
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -47,12 +41,10 @@ public class location extends AppCompatActivity {
     private RequestQueue mQueue;
     private TextView latTextView, lonTextView;
     private ImageView imageView;
-   // private static Context context;
-
 
     private String placeurl, placeN, imageurl;
     private double lat, lon;
-    int PERMISSION_ID = 44;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +124,7 @@ public class location extends AppCompatActivity {
                             JSONObject photos = jsonArray.getJSONObject(0);
                             String photoRef = photos.getString("photo_reference");
                             imageurl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoRef + "&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
-
+                            System.out.println(imageurl);
                             ImageView img = (ImageView) findViewById(R.id.imageView2);
                             Glide.with(context).load(imageurl).into(img);
                             //}
