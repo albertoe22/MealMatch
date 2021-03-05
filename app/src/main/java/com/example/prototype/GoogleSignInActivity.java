@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -34,7 +35,7 @@ public class GoogleSignInActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1 ;
     private FirebaseAuth fbAuth;
 
-    SignInButton signInButton;
+    private SignInButton signInButton;
     private static final int SIGN_In = 1;
 
 
@@ -46,8 +47,8 @@ public class GoogleSignInActivity extends AppCompatActivity {
 // ...
 // Initialize Firebase Auth
         fbAuth = FirebaseAuth.getInstance();
-        findViewById(R.id.signInWithGoogle).setOnClickListener((View.OnClickListener) this);
-        //default = "606705798882-3trsat941qgh9tfagmpn88m6q46d04ft.apps.googleusercontent.com"
+       // findViewById(R.id.signInWithGoogle).setOnClickListener((View.OnClickListener) this);
+        String def = "606705798882-3trsat941qgh9tfagmpn88m6q46d04ft.apps.googleusercontent.com";
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -55,6 +56,15 @@ public class GoogleSignInActivity extends AppCompatActivity {
                 .build();
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         //googleApi = new GoogleApi.Settings.Builder(th)
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                signIn();
+                //sign out button
+            }
+        });
+
     }
     GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -111,6 +121,7 @@ public class GoogleSignInActivity extends AppCompatActivity {
     }
 
     public void onStart() {
+
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = fbAuth.getCurrentUser();
@@ -186,8 +197,8 @@ public class GoogleSignInActivity extends AppCompatActivity {
 
 
 
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//
+//    }
 }
 
