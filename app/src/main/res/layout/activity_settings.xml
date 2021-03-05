@@ -143,7 +143,7 @@
         app:layout_constraintTop_toBottomOf="@+id/changeNotifications" />
 
     <Button
-        android:id="@+id/signOut"
+        android:id="@+id/button_sign_out"
         android:layout_width="333dp"
         android:layout_height="51dp"
         android:layout_marginStart="39dp"

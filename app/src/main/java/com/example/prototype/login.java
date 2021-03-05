@@ -72,10 +72,7 @@ public class login extends AppCompatActivity  {
 
     }
 
-    public void toGoogle(View view){
-        startActivity(new Intent(this, GoogleSignInActivity.class));
-
-    }
+    public void toGoogle(View view){ startActivity(new Intent(this, GoogleSignInActivity.class)); }
 
     public void toRegister(View view) {
         startActivity(new Intent(this, register.class));
