@@ -102,7 +102,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="64dp"
         android:ems="10"
         android:text="Sounds &amp; Notifications"
         android:textSize="24sp"
@@ -116,14 +117,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginTop="72dp"
         android:ems="10"
         android:text="Reset Matches"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeNotifications" />
+        app:layout_constraintTop_toBottomOf="@+id/applicationHeader" />
+
 
     <Button
         android:id="@+id/button_sign_out"
@@ -136,6 +137,7 @@
         android:layout_marginRight="39dp"
         android:layout_marginBottom="16dp"
         android:text="Sign Out"
+        android:onClick="signOut"
         android:textColor="#fff"
         app:backgroundTint="#F44336"
         app:layout_constraintBottom_toBottomOf="parent"
