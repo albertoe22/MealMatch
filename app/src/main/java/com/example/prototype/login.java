@@ -62,7 +62,7 @@ public class login extends AppCompatActivity  {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(login.this, SwipeActivity.class));
+                    startActivity(new Intent(login.this, map.class));
                 }
                 else {
                     Toast.makeText(login.this, "Failed to login! Please check your credentials", Toast.LENGTH_LONG).show();

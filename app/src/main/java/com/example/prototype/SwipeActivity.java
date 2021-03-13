@@ -96,7 +96,6 @@ public class SwipeActivity extends AppCompatActivity {
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
-                // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
                 example.remove(0);
                 arrayAdapter.notifyDataSetChanged();
@@ -104,9 +103,6 @@ public class SwipeActivity extends AppCompatActivity {
 
             @Override
             public void onLeftCardExit(Object dataObject) {
-                //Do something on the left!
-                //You also have access to the original object.
-                //If you want to use it just cast it (String) dataObject
                 Toast.makeText(SwipeActivity.this,"left", Toast.LENGTH_SHORT).show();
             }
 
@@ -117,7 +113,6 @@ public class SwipeActivity extends AppCompatActivity {
 
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                // Ask for more data here
                 example.add("XML ".concat(String.valueOf(i)));
                 arrayAdapter.notifyDataSetChanged();
                 Log.d("LIST", "notified");
@@ -132,7 +127,6 @@ public class SwipeActivity extends AppCompatActivity {
         });
 
 
-        // Optionally add an OnItemClickListener
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
