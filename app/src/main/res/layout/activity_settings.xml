@@ -77,7 +77,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginBottom="64dp"
         android:ems="10"
-        android:text="Change Phone Number"
+        android:text="Change Email Address"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
