@@ -30,7 +30,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
-        LatLng LA = new LatLng(34.0522,118.2437);
+        LatLng LA = new LatLng(34.0522,-118.2437);
         gmap.addMarker(new MarkerOptions().position(LA).title("LA"));
         gmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
     }
