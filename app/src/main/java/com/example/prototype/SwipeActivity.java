@@ -8,15 +8,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.libraries.places.api.Places;
 
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,95 +68,132 @@ import org.json.JSONObject;
 
 public class SwipeActivity extends AppCompatActivity {
     String apiKey = "AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
-    private ArrayList<String> example;
-    private ArrayAdapter<String> arrayAdapter;
-    private int i;
+    //private ArrayList<String> example;
+    private cards cards_data[];
+    private arrayAdapter arrayAdapter;
+
+    private int count = 0;
     FusedLocationProviderClient fusedLocationProviderClient;
     private RequestQueue mQueue;
     private ImageView imageView;
 
-    private String placeurl, placeN, imageurl;
+    private String placeurl;
     private double lat, lon;
+    private String currentUId;
+    private DatabaseReference usersDb;
+    private HashMap<String,String> map = new HashMap<>();
+
+    ListView listView;
+    List<cards> rowItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        ImageView imageView = (ImageView) findViewById(R.id.imageView5);
+        ImageView imageView = findViewById(R.id.imageView4);
         mQueue = Volley.newRequestQueue(this);
 
-        example = new ArrayList<>();
-        example.add("Chipotle");
-        example.add("Chickfila");
-        example.add("Wendys");
-        example.add("Mcdonalds");
-        example.add("BurgerKing");
-        example.add("KrustyKrab");
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.card, R.id.test, example );
-        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.cards);
-        flingContainer.setAdapter(arrayAdapter);
+        rowItems = new ArrayList<cards>();
+        getLastLocation();
 
-        //getLastLocation();
 
-        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
-            @Override
-            public void removeFirstObjectInAdapter() {
-                // this is the simplest way to delete an object from the Adapter (/AdapterView)
-                Log.d("LIST", "removed object!");
-                example.remove(0);
-                arrayAdapter.notifyDataSetChanged();
+        new Thread(() -> {
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
-            @Override
-            public void onLeftCardExit(Object dataObject) {
-                //Do something on the left!
-                //You also have access to the original object.
-                //If you want to use it just cast it (String) dataObject
-                Toast.makeText(SwipeActivity.this,"left", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onRightCardExit(Object dataObject) {
-                Toast.makeText(SwipeActivity.this,"right", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                // Ask for more data here
-                example.add("XML ".concat(String.valueOf(i)));
-                arrayAdapter.notifyDataSetChanged();
-                Log.d("LIST", "notified");
-                i++;
-            }
-
-            @Override
-            public void onScroll(float scrollProgressPercent) {
-
-            }
-
-        });
+            //HashMap<String,String> map = new HashMap<>();
+            //System.out.println(map.get(0).toString());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    int i = 0;
+                    for (Map.Entry mapElement : map.entrySet()) {
+                        String key = (String) mapElement.getKey();
+                        String value = (String) mapElement.getValue();
+                        cards item = new cards(key, value);
+                        rowItems.add(item);
+                        //System.out.println("key" + key + " value" + value);
+                        i++;
+                    }
+                    arrayAdapter = new arrayAdapter(SwipeActivity.this, R.layout.card, rowItems);
 
 
-        // Optionally add an OnItemClickListener
-        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(SwipeActivity.this,"click", Toast.LENGTH_SHORT).show();
-            }
-        });
-        FloatingActionButton left = (FloatingActionButton) findViewById(R.id.dislike);
-        left.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                flingContainer.getTopCardListener().selectLeft();
-            }
-        });
-        FloatingActionButton right = (FloatingActionButton) findViewById(R.id.like);
-        right.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                flingContainer.getTopCardListener().selectRight();
-            }
-        });
+                    SwipeFlingAdapterView flingContainer =  findViewById(R.id.cards);
+                    flingContainer.setAdapter(arrayAdapter);
+                    arrayAdapter.notifyDataSetChanged();
+
+
+                    flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+                        @Override
+                        public void removeFirstObjectInAdapter() {
+                            // this is the simplest way to delete an object from the Adapter (/AdapterView)
+                            Log.d("LIST", "removed object!");
+                            rowItems.remove(0);
+                            arrayAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onLeftCardExit(Object dataObject) {
+                            //Do something on the left!
+                            //You also have access to the original object.
+                            //If you want to use it just cast it (String) dataObject
+                            Toast.makeText(SwipeActivity.this,"left", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onRightCardExit(Object dataObject) {
+                            Toast.makeText(SwipeActivity.this,"right", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onAdapterAboutToEmpty(int itemsInAdapter) {
+                            // Ask for more data here
+                            //rowItems.add("XML ".concat(String.valueOf(i)));
+                            arrayAdapter.notifyDataSetChanged();
+                            Log.d("LIST", "notified");
+                            //i++;
+                        }
+
+                        @Override
+                        public void onScroll(float scrollProgressPercent) {
+
+                        }
+
+                    });
+
+                    // Optionally add an OnItemClickListener
+                    flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClicked(int itemPosition, Object dataObject) {
+                            Toast.makeText(SwipeActivity.this,"click", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    FloatingActionButton left = (FloatingActionButton) findViewById(R.id.dislike);
+                    left.setOnClickListener(new View.OnClickListener(){
+                        public void onClick(View v){
+                            flingContainer.getTopCardListener().selectLeft();
+                        }
+                    });
+                    FloatingActionButton right = (FloatingActionButton) findViewById(R.id.like);
+                    right.setOnClickListener(new View.OnClickListener(){
+                        public void onClick(View v){
+                            flingContainer.getTopCardListener().selectRight();
+                        }
+                    });
+                }
+            });
+
+
+
+            }).start();
+
+
+
+
     }
     private void jsonParse() {
         api();
@@ -166,20 +209,17 @@ public class SwipeActivity extends AppCompatActivity {
                             // Todo: Also need to see how you can change the range in api if you run out of places?
 
                             JSONArray jsonArray = response.getJSONArray("results");
-                            //String[] arrayID = new String[jsonArray.length()];
+
+                            String[] array = new String[jsonArray.length()];
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject place = jsonArray.getJSONObject(i);
-                                String placeID = place.getString("place_id");
-                                placeN = "ChIJB_-Q0lTqwoARJrHlEv4DkTA";
-                                //System.out.println(placeID);
+                                String placeId = place.getString("place_id");
+                                array[i] = placeId;
+
                             }
-                            jsonParsePics();
-
-                            //JSONObject jsonObject = new JSONObject(String.valueOf(response.getJSONObject("result")));
-                            //String name = jsonObject.getString("name");
-                            //String name = a.getString("name");
-                            //System.out.println(name);
-
+                            for (int j = 0; j < jsonArray.length(); j++) {
+                                jsonParsePics(array[j]);
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -196,10 +236,13 @@ public class SwipeActivity extends AppCompatActivity {
 
     }
 
-    private void jsonParsePics() {
-        String detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeN + "&fields=name,rating,photos&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
+    private void jsonParsePics(String placeId) {
+
+        String detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeId + "&fields=name,rating,photos&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
         System.out.println(detailsUrl);
-        Context context = SwipeActivity.this;
+        //Context context = SwipeActivity.this;
+        //HashMap<String,String>map  = new HashMap<>();
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, detailsUrl, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -207,17 +250,22 @@ public class SwipeActivity extends AppCompatActivity {
                     // TODO: 3. If you swipe, go to next place_id reference with photos
                     public void onResponse(JSONObject response) {
                         try {
+                            //HashMap<String,String>map  = new HashMap<>();
+                            String imageurl;
 
                             JSONObject jsonObject = response.getJSONObject("result");
                             JSONArray jsonArray = jsonObject.getJSONArray("photos");
                             //for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject photos = jsonArray.getJSONObject(0);
-                            String photoRef = photos.getString("photo_reference");
-                            imageurl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoRef + "&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
-                            System.out.println(imageurl);
-                            ImageView img = (ImageView) findViewById(R.id.imageView5);
-                            Glide.with(context).load(imageurl).into(img);
-                            //}
+                            if (jsonArray != null && jsonArray.length()> 0) {
+                                String name = jsonObject.getString("name");
+                                System.out.println(name);
+                                JSONObject photos = jsonArray.getJSONObject(0);
+                                String photoRef = photos.getString("photo_reference");
+                                imageurl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoRef + "&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
+                                System.out.println(imageurl);
+                                map.put(name,imageurl);
+
+                            }
 
                         }
                         catch (JSONException e) {
@@ -287,8 +335,8 @@ public class SwipeActivity extends AppCompatActivity {
                     // set latitude
                     lat = location.getLatitude();
                     lon = location.getLongitude();
-                    System.out.println(String.valueOf(location.getLatitude()));
-                    System.out.println("Longitude: " + String.valueOf(location.getLongitude()));
+/*                    System.out.println(String.valueOf(location.getLatitude()));
+                    System.out.println("Longitude: " + String.valueOf(location.getLongitude()));*/
                     jsonParse();
 
                 } else {
@@ -304,7 +352,6 @@ public class SwipeActivity extends AppCompatActivity {
                         public void onLocationResult(LocationResult locationResult) {
                             Location location1 = locationResult.getLastLocation();
                             // Initialize location
-
                             lat = (location1.getLatitude());
                             lon = (location1.getLongitude());
                         }
