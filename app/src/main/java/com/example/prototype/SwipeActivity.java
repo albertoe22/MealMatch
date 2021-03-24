@@ -375,4 +375,6 @@ public class SwipeActivity extends AppCompatActivity {
     public void toSettings(View view) {
         startActivity(new Intent(this, settings.class));
     }
+
+    public void toMap(View view) {startActivity(new Intent(this, map.class));}
 }
