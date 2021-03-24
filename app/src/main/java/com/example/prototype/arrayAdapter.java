@@ -26,12 +26,21 @@ public class arrayAdapter extends ArrayAdapter<cards> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.card, parent, false);
         }
         TextView name = (TextView) convertView.findViewById(R.id.name);
-        ImageView image = (ImageView) convertView.findViewById(R.id.imageView5);
+
+        // Todo: Instead of using imageviews use recyclerview!!
+        ImageView image1 = (ImageView) convertView.findViewById(R.id.imageView4);
+
+        Glide.with(getContext()).load(card.getImageUrl().get(0)).into(image1);
+
+        ImageView image2 = (ImageView) convertView.findViewById(R.id.imageView5);
+
+        Glide.with(getContext()).load(card.getImageUrl().get(1)).into(image2);
+
+        ImageView image3 = (ImageView) convertView.findViewById(R.id.imageView6);
+
+        Glide.with(getContext()).load(card.getImageUrl().get(2)).into(image3);
 
         name.setText(card.getName());
-
-        Glide.with(getContext()).load(card.getImageUrl()).into(image);
-
         return convertView;
 
     }
