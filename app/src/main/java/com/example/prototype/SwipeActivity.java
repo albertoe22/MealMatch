@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -81,7 +82,7 @@ public class SwipeActivity extends AppCompatActivity {
     private double lat, lon;
     private String currentUId;
     private DatabaseReference usersDb;
-    private HashMap<String,String> map = new HashMap<>();
+    private HashMap<String,List<String>> map = new HashMap<>();
 
     ListView listView;
     List<cards> rowItems;
@@ -91,7 +92,7 @@ public class SwipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        ImageView imageView = findViewById(R.id.imageView4);
+        //ImageView imageView = findViewById(R.id.imageView4);
         mQueue = Volley.newRequestQueue(this);
 
         rowItems = new ArrayList<cards>();
@@ -100,7 +101,7 @@ public class SwipeActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
-                Thread.sleep(1500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -113,11 +114,14 @@ public class SwipeActivity extends AppCompatActivity {
                     int i = 0;
                     for (Map.Entry mapElement : map.entrySet()) {
                         String key = (String) mapElement.getKey();
-                        String value = (String) mapElement.getValue();
+                        List<String> value = new ArrayList<>();
+                        value = (List<String>) mapElement.getValue();
                         cards item = new cards(key, value);
                         rowItems.add(item);
+
+
                         //System.out.println("key" + key + " value" + value);
-                        i++;
+                       // i++;
                     }
                     arrayAdapter = new arrayAdapter(SwipeActivity.this, R.layout.card, rowItems);
 
@@ -239,7 +243,7 @@ public class SwipeActivity extends AppCompatActivity {
     private void jsonParsePics(String placeId) {
 
         String detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeId + "&fields=name,rating,photos&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
-        System.out.println(detailsUrl);
+        //System.out.println(detailsUrl);
         //Context context = SwipeActivity.this;
         //HashMap<String,String>map  = new HashMap<>();
 
@@ -259,11 +263,16 @@ public class SwipeActivity extends AppCompatActivity {
                             if (jsonArray != null && jsonArray.length()> 0) {
                                 String name = jsonObject.getString("name");
                                 System.out.println(name);
-                                JSONObject photos = jsonArray.getJSONObject(0);
-                                String photoRef = photos.getString("photo_reference");
-                                imageurl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" + photoRef + "&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
-                                System.out.println(imageurl);
-                                map.put(name,imageurl);
+                                List<String> list = new ArrayList<>();
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject photos = jsonArray.getJSONObject(i);
+                                    String photoRef = photos.getString("photo_reference");
+                                    imageurl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&maxheight=700&photoreference=" + photoRef + "&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
+                                    list.add(i, imageurl);
+                                }
+
+                                //System.out.println(imageurl);
+                                map.put(name,list);
 
                             }
 

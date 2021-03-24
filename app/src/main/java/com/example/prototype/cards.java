@@ -1,21 +1,23 @@
 package com.example.prototype;
 
+import java.util.List;
+
 public class cards {
     //private String userId;
     private String name;
-    private String imageUrl;
-    public cards ( String name,String imageUrl) {
+    private List<String> imageUrl;
+    public cards ( String name, List<String> imageUrl) {
         //this.userId = userId;
         this.name = name;
         this.imageUrl = imageUrl;
 
     }
 
-    public String getImageUrl() {
+    public List<String> getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImageUrl(List<String> imageUrl) {
         this.imageUrl = imageUrl;
     }
 
