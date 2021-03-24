@@ -68,17 +68,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changeUsernameText" />
 
-    <TextView
-        android:id="@+id/changePhoneNumberText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/changeEmail"
+        android:layout_width="278dp"
+        android:layout_height="47dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="64dp"
         android:ems="10"
+        android:onClick="toChangeEmail"
         android:text="Change Email Address"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changePasswordText" />
@@ -87,15 +87,14 @@
         android:id="@+id/applicationHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginLeft="112dp"
         android:ems="10"
         android:text="Application Settings"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changePhoneNumberText" />
+        app:layout_constraintBottom_toTopOf="@+id/settingsHeader"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/changeNotifications"
@@ -103,29 +102,29 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="64dp"
         android:ems="10"
         android:text="Sounds &amp; Notifications"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/button_sign_out"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/applicationHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/changeEmail" />
+
 
     <TextView
         android:id="@+id/resetMatches"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginLeft="32dp"
         android:ems="10"
         android:text="Reset Matches"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/button_sign_out"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/applicationHeader" />
-
+        app:layout_constraintTop_toBottomOf="@+id/changeNotifications"
+        app:layout_constraintVertical_bias="0.225" />
 
     <Button
         android:id="@+id/button_sign_out"

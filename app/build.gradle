@@ -91,6 +91,10 @@ dependencies {
     //google sign in auth
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
+    //for set up of Java SDK
+    //this breaks a lot of stuff in logging in
+   // implementation 'com.google.firebase:firebase-admin:7.1.1'
+
 
 
 }
