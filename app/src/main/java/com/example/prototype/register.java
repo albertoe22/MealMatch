@@ -28,7 +28,6 @@ public class register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         email = findViewById(R.id.emailAddress);
-        uname = findViewById(R.id.username);
         pass = findViewById(R.id.password);
         fname = findViewById(R.id.firstName);
         lname = findViewById(R.id.lastName);

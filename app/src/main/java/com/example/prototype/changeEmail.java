@@ -48,6 +48,7 @@ public class changeEmail extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(changeEmail.this, "Email reset to "+e, Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(changeEmail.this, settings.class));
 
                         }
                         else{
