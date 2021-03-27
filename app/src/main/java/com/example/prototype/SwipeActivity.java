@@ -386,4 +386,5 @@ public class SwipeActivity extends AppCompatActivity {
     }
 
     public void toMap(View view) {startActivity(new Intent(this, map.class));}
+
 }
