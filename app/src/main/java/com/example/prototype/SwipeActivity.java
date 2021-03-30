@@ -15,7 +15,10 @@ import com.google.android.libraries.places.api.Places;
 
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -69,20 +72,21 @@ import org.json.JSONObject;
 
 public class SwipeActivity extends AppCompatActivity {
     String apiKey = "AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
-    //private ArrayList<String> example;
+    private ArrayList<String> placeIds = new ArrayList<>();
     private cards cards_data[];
     private arrayAdapter arrayAdapter;
 
     private int count = 0;
     FusedLocationProviderClient fusedLocationProviderClient;
     private RequestQueue mQueue;
-    private ImageView imageView;
 
     private String placeurl;
     private double lat, lon;
     private String currentUId;
-    private DatabaseReference usersDb;
     private HashMap<String,List<String>> map = new HashMap<>();
+    // access realtime database
+    private DatabaseReference usersDb;
+    private FirebaseAuth mAuth;
 
     ListView listView;
     List<cards> rowItems;
@@ -91,13 +95,19 @@ public class SwipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
+
+        mAuth = FirebaseAuth.getInstance();
+        usersDb = FirebaseDatabase.getInstance().getReference().child("users");
+        currentUId = mAuth.getCurrentUser().getUid();
+        System.out.println("Current USER " + currentUId);
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        //ImageView imageView = findViewById(R.id.imageView4);
+
         mQueue = Volley.newRequestQueue(this);
 
         rowItems = new ArrayList<cards>();
-        getLastLocation();
 
+        getLastLocation();
 
         new Thread(() -> {
             try {
@@ -106,30 +116,27 @@ public class SwipeActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            //HashMap<String,String> map = new HashMap<>();
-            //System.out.println(map.get(0).toString());
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     int i = 0;
+                    // For each entry in the hashmap get the name, imageUrl list, and placeId and put into a card object
+                    // Afterwards add the card into the rowItems
                     for (Map.Entry mapElement : map.entrySet()) {
                         String key = (String) mapElement.getKey();
                         List<String> value = new ArrayList<>();
                         value = (List<String>) mapElement.getValue();
-                        cards item = new cards(key, value);
+                        cards item = new cards(key, value, placeIds.get(i));
                         rowItems.add(item);
 
-
-                        //System.out.println("key" + key + " value" + value);
-                       // i++;
+                        i++;
                     }
-                    arrayAdapter = new arrayAdapter(SwipeActivity.this, R.layout.card, rowItems);
 
+                    arrayAdapter = new arrayAdapter(SwipeActivity.this, R.layout.card, rowItems);
 
                     SwipeFlingAdapterView flingContainer =  findViewById(R.id.cards);
                     flingContainer.setAdapter(arrayAdapter);
                     arrayAdapter.notifyDataSetChanged();
-
 
                     flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
                         @Override
@@ -150,7 +157,12 @@ public class SwipeActivity extends AppCompatActivity {
 
                         @Override
                         public void onRightCardExit(Object dataObject) {
+                            cards obj = (cards) dataObject;
+                            String placeId = obj.getPlaceId();
+                            // put place id into matches for that user
+                            usersDb.child(currentUId).child("matches").child(placeId).setValue(true);
                             Toast.makeText(SwipeActivity.this,"right", Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override
@@ -219,7 +231,6 @@ public class SwipeActivity extends AppCompatActivity {
                                 JSONObject place = jsonArray.getJSONObject(i);
                                 String placeId = place.getString("place_id");
                                 array[i] = placeId;
-
                             }
                             for (int j = 0; j < jsonArray.length(); j++) {
                                 jsonParsePics(array[j]);
@@ -242,10 +253,7 @@ public class SwipeActivity extends AppCompatActivity {
 
     private void jsonParsePics(String placeId) {
 
-        String detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeId + "&fields=name,rating,photos&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
-        //System.out.println(detailsUrl);
-        //Context context = SwipeActivity.this;
-        //HashMap<String,String>map  = new HashMap<>();
+        String detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeId + "&fields=name,rating,photos,place_id&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, detailsUrl, null,
                 new Response.Listener<JSONObject>() {
@@ -254,15 +262,15 @@ public class SwipeActivity extends AppCompatActivity {
                     // TODO: 3. If you swipe, go to next place_id reference with photos
                     public void onResponse(JSONObject response) {
                         try {
-                            //HashMap<String,String>map  = new HashMap<>();
                             String imageurl;
-
+                            // JSON result object
                             JSONObject jsonObject = response.getJSONObject("result");
                             JSONArray jsonArray = jsonObject.getJSONArray("photos");
-                            //for (int i = 0; i < jsonArray.length(); i++) {
+
+                            // Check if the object has pictures
                             if (jsonArray != null && jsonArray.length()> 0) {
                                 String name = jsonObject.getString("name");
-                                System.out.println(name);
+                                String id = jsonObject.getString("place_id");
                                 List<String> list = new ArrayList<>();
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject photos = jsonArray.getJSONObject(i);
@@ -273,6 +281,8 @@ public class SwipeActivity extends AppCompatActivity {
 
                                 //System.out.println(imageurl);
                                 map.put(name,list);
+                                placeIds.add(id);
+                                //System.out.println(placeIds.get(0));
 
                             }
 
@@ -295,7 +305,7 @@ public class SwipeActivity extends AppCompatActivity {
         String output = "json";
         String parameters = lat + "," + lon + "&radius=3000&type=restaurant&key=" +apiKey;
         placeurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/" + output+ "?location=" + parameters;
-        System.out.println(placeurl);
+        //System.out.println(placeurl);
     }
 
 
@@ -344,8 +354,6 @@ public class SwipeActivity extends AppCompatActivity {
                     // set latitude
                     lat = location.getLatitude();
                     lon = location.getLongitude();
-/*                    System.out.println(String.valueOf(location.getLatitude()));
-                    System.out.println("Longitude: " + String.valueOf(location.getLongitude()));*/
                     jsonParse();
 
                 } else {

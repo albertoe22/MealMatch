@@ -27,7 +27,7 @@ public class arrayAdapter extends ArrayAdapter<cards> {
         }
         TextView name = (TextView) convertView.findViewById(R.id.name);
 
-        // Todo: Instead of using imageviews use recyclerview!!
+        // Todo: Instead of using imageviews use recyclerview?
         ImageView image1 = (ImageView) convertView.findViewById(R.id.imageView4);
 
         Glide.with(getContext()).load(card.getImageUrl().get(0)).into(image1);

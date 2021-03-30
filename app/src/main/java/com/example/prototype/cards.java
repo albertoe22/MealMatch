@@ -3,11 +3,11 @@ package com.example.prototype;
 import java.util.List;
 
 public class cards {
-    //private String userId;
+    private String placeId;
     private String name;
     private List<String> imageUrl;
-    public cards ( String name, List<String> imageUrl) {
-        //this.userId = userId;
+    public cards (String name, List<String> imageUrl, String placeId) {
+        this.placeId = placeId;
         this.name = name;
         this.imageUrl = imageUrl;
 
@@ -21,13 +21,10 @@ public class cards {
         this.imageUrl = imageUrl;
     }
 
-/*    public String getUserId() {
-        return userId;
-    }
+    public String getPlaceId() { return placeId; }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }*/
+
+    public void setPlaceId(String placeId) { this.placeId = placeId; }
 
     public String getName() {
         return name;
