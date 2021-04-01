@@ -6,16 +6,20 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <application
 
+    <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAUN_faPdp1Uw1W_zZ4Q2yu8QspSDgR_wQ"/>
+        <activity android:name=".AddFriend"></activity>
+        <activity android:name=".friends" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAUN_faPdp1Uw1W_zZ4Q2yu8QspSDgR_wQ" />
 
         <activity
             android:name=".startscreen"
@@ -26,7 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".location"></activity>
+        <activity android:name=".location" />
         <activity android:name=".login" />
         <activity android:name=".SwipeActivity" />
         <activity android:name=".settings" />
@@ -34,6 +38,7 @@
         <activity android:name=".register" />
         <activity android:name=".Matches" />
         <activity android:name=".restaurant" />
+        <activity android:name=".changeEmail" />
     </application>
 
 </manifest>

@@ -63,7 +63,7 @@ public class login extends AppCompatActivity  {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(login.this, SwipeActivity.class));
+                    startActivity(new Intent(login.this, AddFriend.class));
                 }
                 else {
                     Toast.makeText(login.this, "Failed to login! Please check your credentials", Toast.LENGTH_LONG).show();
@@ -73,7 +73,7 @@ public class login extends AppCompatActivity  {
 
     }
 
-    public void toGoogle(View view){ startActivity(new Intent(this, GoogleSignInActivity.class)); }
+   // public void toGoogle(View view){ startActivity(new Intent(this, GoogleSignInActivity.class)); }
 
     public void toRegister(View view) {
         startActivity(new Intent(this, register.class));
