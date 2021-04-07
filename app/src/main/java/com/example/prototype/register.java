@@ -66,7 +66,7 @@ public class register extends AppCompatActivity {
         startActivity(new Intent(this, login.class));
     }
     public void updateDatabase(FirebaseUser currentUser,View v){
-        String keyID = rUserDatabase.push().getKey();
+        String keyID = fbAuth.getCurrentUser().getUid();
         rUserDatabase.child(keyID).setValue(u);
         toLogin(v);
     }
