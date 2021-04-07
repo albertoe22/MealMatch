@@ -17,6 +17,8 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 //import com.google.firebase.auth.UserRecord;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.auth.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +27,7 @@ import com.google.android.gms.tasks.Task;
 public class settings extends AppCompatActivity {
 
     private static final String TAG = "";
-    FirebaseAuth fbAuth;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,15 @@ public class settings extends AppCompatActivity {
 
     public void toChangeEmail(View view) {
         startActivity(new Intent(settings.this, changeEmail.class));
+    }
+
+    public void resetMatches(View view) {
+        Toast.makeText(settings.this,"Matches have been reset.", Toast.LENGTH_LONG).show();
+
+        DatabaseReference usersDb = FirebaseDatabase.getInstance().getReference().child("users");
+        mAuth = FirebaseAuth.getInstance();
+        String currentUId = mAuth.getCurrentUser().getUid();
+        usersDb.child(currentUId).child("matches").removeValue();
     }
 
 
@@ -94,7 +105,7 @@ public class settings extends AppCompatActivity {
 
 
 
-    public void resetPassword(View v){
+    public void resetPassword(View view){
         Toast.makeText(settings.this,"Password Reset sent to "+email, Toast.LENGTH_LONG).show();
 
         FirebaseAuth.getInstance().sendPasswordResetEmail(email);

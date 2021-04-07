@@ -152,6 +152,9 @@ public class SwipeActivity extends AppCompatActivity {
                             //Do something on the left!
                             //You also have access to the original object.
                             //If you want to use it just cast it (String) dataObject
+                            cards obj = (cards) dataObject;
+                            String placeId = obj.getPlaceId();
+                            usersDb.child(currentUId).child("matches").child(placeId).setValue(false);
                             Toast.makeText(SwipeActivity.this,"left", Toast.LENGTH_SHORT).show();
                         }
 
@@ -303,7 +306,8 @@ public class SwipeActivity extends AppCompatActivity {
 
     private void api() {
         String output = "json";
-        String parameters = lat + "," + lon + "&radius=3000&type=restaurant&key=" +apiKey;
+        int radius = 3000;
+        String parameters = lat + "," + lon + "&radius=" +radius + "&type=restaurant&key=" +apiKey;
         placeurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/" + output+ "?location=" + parameters;
         //System.out.println(placeurl);
     }
