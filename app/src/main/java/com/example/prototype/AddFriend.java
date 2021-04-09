@@ -43,7 +43,7 @@ public class AddFriend extends AppCompatActivity {
     }
     private void userSearch(String s){
         Query userSearch = userdatabase.orderByChild("email").startAt(s).endAt(s+"\uf8ff");
-        FirebaseRecyclerAdapter<users,ProfileHolder> adapter  = new FirebaseRecyclerAdapter<users, ProfileHolder>(users.class, R.layout.profile_layout, ProfileHolder.class, userdatabase) {
+        FirebaseRecyclerAdapter<users,ProfileHolder> adapter  = new FirebaseRecyclerAdapter<users, ProfileHolder>(users.class, R.layout.activity_profile, ProfileHolder.class, userdatabase) {
             @Override
             protected void populateViewHolder(ProfileHolder profileHolder, users users, int i) {
                 profileHolder.setUserInfo(users.getEmail());
