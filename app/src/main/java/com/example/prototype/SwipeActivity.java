@@ -88,6 +88,8 @@ public class SwipeActivity extends AppCompatActivity {
     private DatabaseReference usersDb;
     private FirebaseAuth mAuth;
 
+    int globalRadius = 3000;
+
     ListView listView;
     List<cards> rowItems;
 
@@ -304,9 +306,14 @@ public class SwipeActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
+    private void setRadius(int r)
+    {
+        globalRadius = r;
+    }
+
     private void api() {
         String output = "json";
-        int radius = 3000;
+        int radius = globalRadius;
         String parameters = lat + "," + lon + "&radius=" +radius + "&type=restaurant&key=" +apiKey;
         placeurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/" + output+ "?location=" + parameters;
         //System.out.println(placeurl);

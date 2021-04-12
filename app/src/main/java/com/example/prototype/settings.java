@@ -53,6 +53,10 @@ public class settings extends AppCompatActivity {
         startActivity(new Intent(settings.this, changeEmail.class));
     }
 
+    public void toSetDistance(View view){
+        startActivity(new Intent(settings.this, setDistance.class));
+    }
+
     public void resetMatches(View view) {
         Toast.makeText(settings.this,"Matches have been reset.", Toast.LENGTH_LONG).show();
 
@@ -110,6 +114,8 @@ public class settings extends AppCompatActivity {
 
         FirebaseAuth.getInstance().sendPasswordResetEmail(email);
     }
+
+
 
     public void toSwipe(View view) {
         startActivity(new Intent(this, SwipeActivity.class));

@@ -39,6 +39,7 @@
         <activity android:name=".Matches" />
         <activity android:name=".restaurant" />
         <activity android:name=".changeEmail" />
+        <activity android:name=".setDistance" />
     </application>
 
 </manifest>
