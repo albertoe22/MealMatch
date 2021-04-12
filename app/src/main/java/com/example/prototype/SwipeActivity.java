@@ -15,10 +15,14 @@ import com.google.android.libraries.places.api.Places;
 
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -235,10 +239,33 @@ public class SwipeActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject place = jsonArray.getJSONObject(i);
                                 String placeId = place.getString("place_id");
-                                array[i] = placeId;
-                            }
-                            for (int j = 0; j < jsonArray.length(); j++) {
-                                jsonParsePics(array[j]);
+                                DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("users");
+
+                                postRef.child(currentUId).child("matches").orderByKey().equalTo(placeId).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        if(dataSnapshot.exists()) {
+                                            // This is if the Key (placeId) exists for current user
+                                            // Do nothing if it exists so it will not be added to the adapter view
+                                        } else {
+                                            // If it doesn't yet exist in the database show it as a possible restaurant match
+                                            array[count] = placeId;
+                                            System.out.println(placeId);
+                                            jsonParsePics(array[count]);
+                                            count++;
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        System.out.println("failed");
+                                    }
+
+                                });
+
+
                             }
 
                         } catch (JSONException e) {
