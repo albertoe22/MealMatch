@@ -433,4 +433,8 @@ public class SwipeActivity extends AppCompatActivity {
 
     public void toMap(View view) {startActivity(new Intent(this, map.class));}
 
+    public void toFriends(View view){
+        startActivity(new Intent(this, friends.class));
+    }
+
 }
