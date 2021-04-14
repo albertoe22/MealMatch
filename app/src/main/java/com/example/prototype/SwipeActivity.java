@@ -92,7 +92,7 @@ public class SwipeActivity extends AppCompatActivity {
     private DatabaseReference usersDb;
     private FirebaseAuth mAuth;
 
-    int globalRadius = 3000;
+    static int globalRadius = 3000;
 
     ListView listView;
     List<cards> rowItems;

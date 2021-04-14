@@ -29,7 +29,7 @@
         android:layout_width="333dp"
         android:layout_height="51dp"
         android:layout_marginBottom="56dp"
-        android:onClick="toSettings"
+        android:onClick="backButton"
         android:text="Back"
         android:textColor="#fff"
         app:backgroundTint="#F44336"
@@ -43,6 +43,7 @@
         android:layout_height="42dp"
         android:max="20"
         android:progress="3"
+        android:onClick="update"
         app:layout_constraintBottom_toTopOf="@+id/backButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,17 +57,23 @@
         android:layout_marginTop="80dp"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settingsHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsHeader"
+        app:layout_constraintVertical_bias="0.289" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="101dp"
-        tools:layout_editor_absoluteY="284dp" />
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="78dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="44dp"
+        android:text="Kilometers"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressDisplay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
