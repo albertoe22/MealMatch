@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,9 +26,34 @@ public class setDistance extends AppCompatActivity {
         SeekBar seekBar= (SeekBar) findViewById(R.id.seekBar);
         seekBar.setProgress(SwipeActivity.globalRadius/1000);
         progress = seekBar.getProgress();
+        TextView text = findViewById(R.id.textView10);
+        text.setText("Current Distance is "+progress+" Kilometers.");
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                progress = seekBar.getProgress();
+                text.setText("Current Distance is "+progress+" Kilometers.");
+            }
+        });
 
     }
     //SeekBar seekBar= (SeekBar) findViewById(R.id.seekBar);
+
+    //seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
 
 
 

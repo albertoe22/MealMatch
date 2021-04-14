@@ -85,16 +85,18 @@
 
     <Button
         android:id="@+id/setDistance"
-        android:layout_width="281dp"
-        android:layout_height="40dp"
+        android:layout_width="278dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="75dp"
         android:ems="10"
         android:onClick="toSetDistance"
         android:text="Change Distance"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintBottom_toTopOf="@+id/changeNotifications"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changeEmail" />
 
