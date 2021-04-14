@@ -42,6 +42,7 @@
         android:layout_width="231dp"
         android:layout_height="42dp"
         android:max="20"
+        android:min="1"
         android:progress="3"
         android:onClick="update"
         app:layout_constraintBottom_toTopOf="@+id/backButton"
