@@ -57,7 +57,7 @@
         app:layout_constraintVertical_bias="0.572" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/searchforfriends"
         android:layout_width="94dp"
         android:layout_height="76dp"
         app:layout_constraintBottom_toBottomOf="parent"
