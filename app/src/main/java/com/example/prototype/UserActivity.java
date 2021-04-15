@@ -29,6 +29,7 @@ public class UserActivity extends AppCompatActivity {
     private int friendStatus;
     private DatabaseReference friendRequestData;
     private FirebaseUser current;
+    private DatabaseReference FriendList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,7 @@ public class UserActivity extends AppCompatActivity {
         fname = (TextView) findViewById(R.id.Firstname);
         lname = (TextView) findViewById(R.id.Lastname);
         sendRequest = (Button) findViewById(R.id.sendRequest);
+        FriendList = FirebaseDatabase.getInstance().getReference().child("FriendList");
         //0 = not friends
         friendStatus = 0;
         current = FirebaseAuth.getInstance().getCurrentUser();
@@ -53,6 +55,28 @@ public class UserActivity extends AppCompatActivity {
                 email.setText(userEmail);
                 fname.setText(first);
                 lname.setText(last);
+
+                //Friends list
+                friendRequestData.child(current.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.hasChild(userid)){
+                            String request = snapshot.child(userid).child("reqType").getValue().toString();
+                            if(request.equals("received")){
+                                friendStatus = 2;//2 = request recieved
+                                sendRequest.setText("ACCEPT REQUEST");
+                            }else if(request.equals("sent")){
+                                friendStatus = 3;//3 = request sent
+                                sendRequest.setText("CANCEL REQUEST");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override
@@ -63,6 +87,8 @@ public class UserActivity extends AppCompatActivity {
         sendRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendRequest.setEnabled(false);
+                //NOT FRIENDS
                 if(friendStatus==0){//means not friends
                     friendRequestData.child(current.getUid()).child(userid).child("reqType").setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -71,6 +97,9 @@ public class UserActivity extends AppCompatActivity {
                                 friendRequestData.child(userid).child(current.getUid()).child("reqType").setValue("received").addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
+                                        sendRequest.setEnabled(true);
+                                        friendStatus = 1;//1 = request sent
+                                        sendRequest.setText("CANCEL REQUEST");
                                         Toast.makeText(UserActivity.this,"success", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -79,6 +108,49 @@ public class UserActivity extends AppCompatActivity {
                             }
                         }
                     });
+                }
+                //CANCEL REQUEST
+                if(friendStatus==1){
+                    friendRequestData.child(current.getUid()).child(userid).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            friendRequestData.child(userid).child(current.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    sendRequest.setEnabled(true);
+                                    friendStatus = 0;
+                                    sendRequest.setText("SEND FRIEND REQUEST");
+                                }
+                            });
+                        }
+                    });
+                }
+                //ACCEPT REQUEST
+                if(friendStatus==2){
+                    FriendList.child(current.getUid()).child(userid).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            FriendList.child(userid).child(current.getUid()).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    friendRequestData.child(current.getUid()).child(userid).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            friendRequestData.child(userid).child(current.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    sendRequest.setEnabled(true);
+                                                    friendStatus = 4; //4 = friends
+                                                    sendRequest.setText("UN-FRIEND");
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+
                 }
             }
         });

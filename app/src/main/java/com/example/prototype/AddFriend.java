@@ -13,9 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -50,7 +47,7 @@ public class AddFriend extends AppCompatActivity {
     }
     private void userSearch(String s){
         Query userSearch = userdatabase.orderByChild("email").startAt(s).endAt(s+"\uf8ff");
-        FirebaseRecyclerAdapter<users,ProfileHolder> adapter  = new FirebaseRecyclerAdapter<users, ProfileHolder>(users.class, R.layout.activity_profile, ProfileHolder.class, userdatabase) {
+        FirebaseRecyclerAdapter<users,ProfileHolder> adapter  = new FirebaseRecyclerAdapter<users, ProfileHolder>(users.class, R.layout.activity_profile, ProfileHolder.class, userSearch) {
             @Override
             protected void populateViewHolder(ProfileHolder profileHolder, users users, int i) {
                 profileHolder.setUserInfo(users.getEmail());
@@ -74,7 +71,7 @@ public class AddFriend extends AppCompatActivity {
             view = itemView;
         }
         public void setUserInfo(String userEmail){
-            TextView email = (TextView) view.findViewById(R.id.email);
+            TextView email = (TextView) view.findViewById(R.id.emailDisplay);
 
             email.setText(userEmail);
         }
