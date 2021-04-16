@@ -15,10 +15,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.lang.reflect.Array;
 
 public class map extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap gmap;
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +40,13 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
         LatLng LA = new LatLng(34.0522,-118.2437);
         gmap.addMarker(new MarkerOptions().position(LA).title("LA"));
         gmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+
+
+        DatabaseReference usersDb = FirebaseDatabase.getInstance().getReference().child("users");
+        String currentUId = mAuth.getCurrentUser().getUid();
+        Task<DataSnapshot> ar = usersDb.child(currentUId).child("matches").get();
+
+
     }
 
 }
