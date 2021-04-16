@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -77,7 +78,9 @@ import org.json.JSONObject;
 public class SwipeActivity extends AppCompatActivity {
     String apiKey = "AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
     private ArrayList<String> placeIds = new ArrayList<>();
+    private List<List<Double>> latlon = new ArrayList<>();
     private cards cards_data[];
+    private List<String> addresses = new ArrayList<>();
     private arrayAdapter arrayAdapter;
 
     private int count = 0;
@@ -132,7 +135,7 @@ public class SwipeActivity extends AppCompatActivity {
                         String key = (String) mapElement.getKey();
                         List<String> value = new ArrayList<>();
                         value = (List<String>) mapElement.getValue();
-                        cards item = new cards(key, value, placeIds.get(i));
+                        cards item = new cards(key, value, placeIds.get(i),latlon.get(i), addresses.get(i));
                         rowItems.add(item);
 
                         i++;
@@ -161,7 +164,7 @@ public class SwipeActivity extends AppCompatActivity {
                             cards obj = (cards) dataObject;
                             String placeId = obj.getPlaceId();
                             usersDb.child(currentUId).child("matches").child(placeId).setValue(false);
-                            Toast.makeText(SwipeActivity.this,"left", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SwipeActivity.this,"left", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -170,7 +173,11 @@ public class SwipeActivity extends AppCompatActivity {
                             String placeId = obj.getPlaceId();
                             // put place id into matches for that user
                             usersDb.child(currentUId).child("matches").child(placeId).setValue(true);
-                            Toast.makeText(SwipeActivity.this,"right", Toast.LENGTH_SHORT).show();
+                            usersDb.child(currentUId).child("matches").child(placeId).child("name").setValue(obj.getName());
+                            usersDb.child(currentUId).child("matches").child(placeId).child("address").setValue(obj.getAddress());
+                            usersDb.child(currentUId).child("matches").child(placeId).child("lat").setValue(obj.getLatlon().get(0));
+                            usersDb.child(currentUId).child("matches").child(placeId).child("lon").setValue(obj.getLatlon().get(1));
+                            //Toast.makeText(SwipeActivity.this,"right", Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -178,6 +185,7 @@ public class SwipeActivity extends AppCompatActivity {
                         public void onAdapterAboutToEmpty(int itemsInAdapter) {
                             // Ask for more data here
                             //rowItems.add("XML ".concat(String.valueOf(i)));
+                            Toast.makeText(SwipeActivity.this,"Ran out of restaurants increase distance in settings or reset matches", Toast.LENGTH_LONG).show();
                             arrayAdapter.notifyDataSetChanged();
                             Log.d("LIST", "notified");
                             //i++;
@@ -285,13 +293,12 @@ public class SwipeActivity extends AppCompatActivity {
 
     private void jsonParsePics(String placeId) {
 
-        String detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeId + "&fields=name,rating,photos,place_id&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
-
+        String detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeId + "&fields=name,rating,photos,place_id,geometry,formatted_address&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
+        System.out.println(detailsUrl);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, detailsUrl, null,
                 new Response.Listener<JSONObject>() {
                     @Override
-                    // TODO: 2. Save photo links into an arraylist/hashmap, make it so that when you tap, it goes to the next image
-                    // TODO: 3. If you swipe, go to next place_id reference with photos
+
                     public void onResponse(JSONObject response) {
                         try {
                             String imageurl;
@@ -304,14 +311,23 @@ public class SwipeActivity extends AppCompatActivity {
                                 String name = jsonObject.getString("name");
                                 String id = jsonObject.getString("place_id");
                                 List<String> list = new ArrayList<>();
+                                // GET LATITUDE LONGITUDE FROM JSON
+                                String address = jsonObject.getString("formatted_address");
+                                double lat = jsonObject.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
+                                double lon = jsonObject.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
+                                System.out.println("lat= " + lat + " lon= " + lon);
+                                // Put into list
+                                List<Double> list2 = new ArrayList<>();
+                                list2.add(lat);
+                                list2.add(lon);
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject photos = jsonArray.getJSONObject(i);
                                     String photoRef = photos.getString("photo_reference");
                                     imageurl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&maxheight=700&photoreference=" + photoRef + "&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
                                     list.add(i, imageurl);
                                 }
-
-                                //System.out.println(imageurl);
+                                latlon.add(list2);
+                                addresses.add(address);
                                 map.put(name,list);
                                 placeIds.add(id);
                                 //System.out.println(placeIds.get(0));

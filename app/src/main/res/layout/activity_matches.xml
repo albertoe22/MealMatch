@@ -51,20 +51,36 @@
         android:id="@+id/SearchViewMatches"
         android:layout_width="376dp"
         android:layout_height="24dp"
+        android:layout_marginBottom="651dp"
         android:background="#E89B9B"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/ListViewMatches"
+        app:layout_constraintBottom_toBottomOf="@+id/nestedScrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.423" />
 
-    <ListView
-        android:id="@+id/ListViewMatches"
-        android:layout_width="408dp"
-        android:layout_height="614dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recyclerView"
+            android:scrollbars="vertical"
+            ></androidx.recyclerview.widget.RecyclerView>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <!--    <ListView-->
+<!--        android:id="@+id/ListViewMatches"-->
+<!--        android:layout_width="408dp"-->
+<!--        android:layout_height="614dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
