@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 public class MatchesViewHolders extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public TextView mMatchId, mMatchName;
+    public TextView mMatchAddress, mMatchName;
     public ImageView mMatchImage;
     public MatchesViewHolders (View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
-        mMatchId = (TextView) itemView.findViewById(R.id.Matchid);
+        mMatchAddress = (TextView) itemView.findViewById(R.id.MatchAddress);
         mMatchName = (TextView) itemView.findViewById(R.id.MatchName);
         mMatchImage = (ImageView) itemView.findViewById(R.id.MatchImage);
     }

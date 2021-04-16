@@ -28,14 +28,14 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesViewHolders> {
         layoutView.setLayoutParams(lp);
         MatchesViewHolders rcv = new MatchesViewHolders((layoutView));
 
-
-
         return rcv;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MatchesViewHolders holder, int position) {
-        holder.mMatchId.setText(matchesList.get(position).getPlaceId());
+        holder.mMatchAddress.setText(matchesList.get(position).getAddress());
+        holder.mMatchName.setText(matchesList.get(position).getName());
+
     }
 
     @Override
