@@ -163,7 +163,7 @@ public class SwipeActivity extends AppCompatActivity {
                             //If you want to use it just cast it (String) dataObject
                             cards obj = (cards) dataObject;
                             String placeId = obj.getPlaceId();
-                            usersDb.child(currentUId).child("matches").child(placeId).setValue(false);
+                            usersDb.child(currentUId).child("matches").child(placeId).setValue("false");
                             //Toast.makeText(SwipeActivity.this,"left", Toast.LENGTH_SHORT).show();
                         }
 
@@ -172,7 +172,7 @@ public class SwipeActivity extends AppCompatActivity {
                             cards obj = (cards) dataObject;
                             String placeId = obj.getPlaceId();
                             // put place id into matches for that user
-                            usersDb.child(currentUId).child("matches").child(placeId).setValue(true);
+                            usersDb.child(currentUId).child("matches").child(placeId).setValue("true");
                             usersDb.child(currentUId).child("matches").child(placeId).child("name").setValue(obj.getName());
                             usersDb.child(currentUId).child("matches").child(placeId).child("address").setValue(obj.getAddress());
                             usersDb.child(currentUId).child("matches").child(placeId).child("lat").setValue(obj.getLatlon().get(0));
@@ -185,7 +185,7 @@ public class SwipeActivity extends AppCompatActivity {
                         public void onAdapterAboutToEmpty(int itemsInAdapter) {
                             // Ask for more data here
                             //rowItems.add("XML ".concat(String.valueOf(i)));
-                            Toast.makeText(SwipeActivity.this,"Ran out of restaurants increase distance in settings or reset matches", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SwipeActivity.this,"Almost out of restaurants increase distance in settings or reset matches", Toast.LENGTH_LONG).show();
                             arrayAdapter.notifyDataSetChanged();
                             Log.d("LIST", "notified");
                             //i++;
@@ -316,7 +316,7 @@ public class SwipeActivity extends AppCompatActivity {
                                 double lat = jsonObject.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
                                 double lon = jsonObject.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
                                 System.out.println("lat= " + lat + " lon= " + lon);
-                                // Put into list
+                                // Put into list lon and latitude into a
                                 List<Double> list2 = new ArrayList<>();
                                 list2.add(lat);
                                 list2.add(lon);
@@ -330,7 +330,7 @@ public class SwipeActivity extends AppCompatActivity {
                                 addresses.add(address);
                                 map.put(name,list);
                                 placeIds.add(id);
-                                //System.out.println(placeIds.get(0));
+
 
                             }
 
