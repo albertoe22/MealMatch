@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -26,6 +27,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
     private FirebaseAuth mAuth;
     private String currentUserID;
     private ArrayList<MapMarkerObject> MapMarkers = new ArrayList<MapMarkerObject>();
+    private ArrayList<MapMarkerObject> resultsMarkers= new ArrayList<MapMarkerObject>();
 
 
     @Override
@@ -36,9 +38,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
         //mAuth = FirebaseAuth.getInstance();
         mapFragment.getMapAsync(this);
         currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        getMarkers();
+        //getMarkers();
         List<MapMarkerObject> markers = getDataSetMatches();
-        Toast.makeText(this, "markers size is1 "+markers.size(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "markers size is1 "+markers.size(), Toast.LENGTH_SHORT).show();
         //populate();
     }
 
@@ -55,26 +57,36 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
         getMarkers();
+        //gmap.animateCamera(CameraUpdateFactory.zoomTo(21));
 
-        ArrayList<MapMarkerObject> markers = getDataSetMatches();
+        if (resultsMarkers.size() == 0) {
+            LatLng LA = new LatLng(34.0522, -118.2437);
+            String la = "LA";
+
+            gmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+        }
+
+
+        //ArrayList<MapMarkerObject> markers = getDataSetMatches();
+
+
        /* Toast.makeText(this, "markers size is2 "+markers.size(), Toast.LENGTH_SHORT).show();
 */
 
-        for(int i = 0; i < markers.size(); i++){
+        /*for(int i = 0; i < markers.size(); i++){
             LatLng temp = new LatLng(markers.get(i).getLat(), markers.get(i).getLng());
             gmap.addMarker(new MarkerOptions().position(temp).title(markers.get(i).getName()));
             //gmap.moveCamera(CameraUpdateFactory.newLatLng(temp));
         }
 
-       /* LatLng LA = new LatLng(34.0522, -118.2437);
+        LatLng LA = new LatLng(34.0522, -118.2437);
         String la = "LA";
         gmap.addMarker(new MarkerOptions().position(LA).title(la+markers.size()));
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
-        Toast.makeText(this, "markers size is3 "+markers.size(), Toast.LENGTH_SHORT).show();
-        */
+        gmap.moveCamera(CameraUpdateFactory.newLatLng(LA));*/
+        //Toast.makeText(this, "markers size is3 "+markers.size(), Toast.LENGTH_SHORT).show();
 
     }
-    private ArrayList<MapMarkerObject> resultsMarkers= new ArrayList<MapMarkerObject>();
+
     private ArrayList<MapMarkerObject> getDataSetMatches() {
         return resultsMarkers;
     }
@@ -122,27 +134,37 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
                         address = snapshot.child("address").getValue().toString();
                     }*/
 
-                    if (snapshot.child("lat").getValue(Integer.class) != null){
+                    if (snapshot.child("lat").getValue(Double.class) != null){
                         lat = ((double) snapshot.child("lat").getValue());
                     }
 
-                    if (snapshot.child("lon").getValue(Integer.class) != null){
+                    if (snapshot.child("lon").getValue(Double.class) != null){
                         lng = ((double) snapshot.child("lon").getValue());
                     }
+
                     // Create matches object from the database values
                     MapMarkerObject obj = new MapMarkerObject(name, lat, lng);
+                    LatLng temp = new LatLng(lat, lng);
+                    gmap.addMarker(new MarkerOptions().position(temp).title(name));
+                    gmap.moveCamera(CameraUpdateFactory.newLatLng(temp));
+
+
                     // Put matches into array adapter
                     resultsMarkers.add(obj);
+
                     //mMatchesAdapter.notifyDataSetChanged();
                 }
 
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
+
 
     }
 
