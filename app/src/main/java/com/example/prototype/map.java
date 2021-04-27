@@ -60,9 +60,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
         //gmap.animateCamera(CameraUpdateFactory.zoomTo(21));
 
         if (resultsMarkers.size() == 0) {
+            // Default marker for no markers
             LatLng LA = new LatLng(34.0522, -118.2437);
             String la = "LA";
-
             gmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
         }
 
