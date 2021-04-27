@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -26,6 +27,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
     private FirebaseAuth mAuth;
     private String currentUserID;
     private ArrayList<MapMarkerObject> MapMarkers = new ArrayList<MapMarkerObject>();
+    private ArrayList<MapMarkerObject> resultsMarkers= new ArrayList<MapMarkerObject>();
+
 
 
     @Override
@@ -37,9 +40,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
         currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         getMarkers();
-        List<MapMarkerObject> markers = getDataSetMatches();
-        Toast.makeText(this, "markers size is1 "+markers.size(), Toast.LENGTH_SHORT).show();
-        //populate();
+        MapMarkers = getDataSetMatches();
+        Toast.makeText(this, "markers size is "+MapMarkers.size(), Toast.LENGTH_SHORT).show();
+
     }
 
 
@@ -48,7 +51,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
     {
         MapMarkers.add(oof);
     }
-    //bigOof.add(oof);
+
 
 
     @Override
@@ -57,8 +60,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
         getMarkers();
 
         ArrayList<MapMarkerObject> markers = getDataSetMatches();
-       /* Toast.makeText(this, "markers size is2 "+markers.size(), Toast.LENGTH_SHORT).show();
-*/
+
 
         for(int i = 0; i < markers.size(); i++){
             LatLng temp = new LatLng(markers.get(i).getLat(), markers.get(i).getLng());
@@ -66,18 +68,19 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
             //gmap.moveCamera(CameraUpdateFactory.newLatLng(temp));
         }
 
-       /* LatLng LA = new LatLng(34.0522, -118.2437);
-        String la = "LA";
-        gmap.addMarker(new MarkerOptions().position(LA).title(la+markers.size()));
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
-        Toast.makeText(this, "markers size is3 "+markers.size(), Toast.LENGTH_SHORT).show();
-        */
+        //LatLng LA = new LatLng(SwipeActivity.lati, SwipeActivity.longi);
+        //String la = "Me";
+//        gmap.addMarker(new MarkerOptions().position(LA).title(la));
+//        gmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+//        System.out.println(markers);
+
+
 
     }
-    private ArrayList<MapMarkerObject> resultsMarkers= new ArrayList<MapMarkerObject>();
     private ArrayList<MapMarkerObject> getDataSetMatches() {
         return resultsMarkers;
     }
+
     private void getMarkers() {
 
         DatabaseReference matchDb = FirebaseDatabase.getInstance().getReference().child("users").child(currentUserID).child("matches");
@@ -111,27 +114,24 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
                     String placeId = snapshot.getKey();
                     String name = "";
                     String address = "";
-                    double lat = 0;
-                    double lng = 0;
+                    double lat = 0.0;
+                    double lng = 0.0;
                     // If the name value is not null, get name from the database
                     if (snapshot.child("name").getValue(String.class) != null) {
                         name = snapshot.child("name").getValue().toString();
                     }
-                    // If the address value is not null, get address from the database
-                    /*if (snapshot.child("address").getValue(String.class) != null) {
-                        address = snapshot.child("address").getValue().toString();
-                    }*/
-
-                    if (snapshot.child("lat").getValue(Integer.class) != null){
+                    System.out.println();
+                    if (snapshot.child("lat").getValue(Double.class) != null){
                         lat = ((double) snapshot.child("lat").getValue());
                     }
 
-                    if (snapshot.child("lon").getValue(Integer.class) != null){
+                    if (snapshot.child("lon").getValue(Double.class) != null){
                         lng = ((double) snapshot.child("lon").getValue());
                     }
                     // Create matches object from the database values
                     MapMarkerObject obj = new MapMarkerObject(name, lat, lng);
                     // Put matches into array adapter
+
                     resultsMarkers.add(obj);
                     //mMatchesAdapter.notifyDataSetChanged();
                 }
