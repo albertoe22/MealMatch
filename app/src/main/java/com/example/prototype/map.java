@@ -63,7 +63,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
             // Default marker for no markers
             LatLng LA = new LatLng(34.0522, -118.2437);
             String la = "LA";
-            gmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
+            float zoomLevel = 14.0f;
+            gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(LA, zoomLevel));
+            //gmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
         }
 
 
@@ -146,7 +148,11 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
                     MapMarkerObject obj = new MapMarkerObject(name, lat, lng);
                     LatLng temp = new LatLng(lat, lng);
                     gmap.addMarker(new MarkerOptions().position(temp).title(name));
-                    gmap.moveCamera(CameraUpdateFactory.newLatLng(temp));
+                    //gmap.moveCamera(CameraUpdateFactory.newLatLng(temp));
+
+                    //fix for zoom
+                    float zoomLevel = 14.0f;
+                    gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(temp, zoomLevel));
 
 
                     // Put matches into array adapter
