@@ -13,6 +13,7 @@ public class MatchesViewHolders extends RecyclerView.ViewHolder implements View.
     public TextView mMatchAddress, mMatchName;
     public ImageView mMatchImage;
     public String placeId;
+    public double lat, lon;
     public MatchesViewHolders (View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);

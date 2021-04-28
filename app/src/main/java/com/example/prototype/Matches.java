@@ -81,6 +81,7 @@ public class Matches extends AppCompatActivity {
                     String placeId = snapshot.getKey();
                     String name = "";
                     String address = "";
+                    double lat = 0, lon = 0;
                     // If the name value is not null, get name from the database
                     if (snapshot.child("name").getValue(String.class) != null) {
                         name = snapshot.child("name").getValue().toString();
@@ -89,8 +90,12 @@ public class Matches extends AppCompatActivity {
                     if (snapshot.child("address").getValue(String.class) != null) {
                         address = snapshot.child("address").getValue().toString();
                     }
+                    if (snapshot.child("lat").getValue(Double.class) != null && snapshot.child("lon").getValue(Double.class) != null) {
+                        lat = (double) snapshot.child("lat").getValue();
+                        lon = (double) snapshot.child("lon").getValue();
+                    }
                     // Create matches object from the database values
-                    MatchesObject obj = new MatchesObject(placeId, name, address);
+                    MatchesObject obj = new MatchesObject(placeId, name, address, lat, lon);
                     // Put matches into array adapter
                     resultsMatches.add(obj);
                     mMatchesAdapter.notifyDataSetChanged();
