@@ -58,7 +58,7 @@ public class settings extends AppCompatActivity {
     }
 
     public void resetMatches(View view) {
-        Toast.makeText(settings.this,"Matches have been reset.", Toast.LENGTH_LONG).show();
+        Toast.makeText(settings.this,"Matches have been reset.", Toast.LENGTH_SHORT).show();
 
         DatabaseReference usersDb = FirebaseDatabase.getInstance().getReference().child("users");
         mAuth = FirebaseAuth.getInstance();

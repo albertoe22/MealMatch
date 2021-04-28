@@ -187,7 +187,12 @@ public class SwipeActivity extends AppCompatActivity {
                         public void onAdapterAboutToEmpty(int itemsInAdapter) {
                             // Ask for more data here
                             //rowItems.add("XML ".concat(String.valueOf(i)));
-                            Toast.makeText(SwipeActivity.this,"Almost out of restaurants increase distance in settings or reset matches", Toast.LENGTH_LONG).show();
+                            if (itemsInAdapter == 0) {
+                                Toast.makeText(SwipeActivity.this,"Out of restaurants, increase distance in settings or reset matches", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (itemsInAdapter <= 4) {
+                                Toast.makeText(SwipeActivity.this,"Almost out of restaurants, increase distance in settings or reset matches", Toast.LENGTH_SHORT).show();
+                            }
                             arrayAdapter.notifyDataSetChanged();
                             Log.d("LIST", "notified");
                             //i++;

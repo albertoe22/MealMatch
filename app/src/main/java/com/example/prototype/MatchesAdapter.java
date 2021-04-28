@@ -35,6 +35,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesViewHolders> {
     public void onBindViewHolder(@NonNull MatchesViewHolders holder, int position) {
         holder.mMatchAddress.setText(matchesList.get(position).getAddress());
         holder.mMatchName.setText(matchesList.get(position).getName());
+        holder.placeId = matchesList.get(position).getPlaceId();
+        holder.lat = matchesList.get(position).getLat();
+        holder.lon = matchesList.get(position).getLon();
 
     }
 
