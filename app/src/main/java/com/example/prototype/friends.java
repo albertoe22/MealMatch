@@ -38,7 +38,7 @@ public class friends extends AppCompatActivity {
             }
         });
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        myFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("FriendList").child(currentUser.getUid());
+        myFriendsDatabase = FirebaseDatabase.getInstance().getReference("FriendList").child(currentUser.getUid());
         myFriends = (RecyclerView) findViewById(R.id.friendsList);
         myFriends.setHasFixedSize(true);
         myFriends.setLayoutManager(new LinearLayoutManager(this));
