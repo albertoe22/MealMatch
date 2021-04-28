@@ -127,10 +127,10 @@ public class UserActivity extends AppCompatActivity {
                 }
                 //ACCEPT REQUEST
                 if(friendStatus==2){
-                    FriendList.child(current.getUid()).child(userid).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    FriendList.child(current.getUid()).child(userid).setValue("temp").addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            FriendList.child(userid).child(current.getUid()).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            FriendList.child(userid).child(current.getUid()).setValue("temp").addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     friendRequestData.child(current.getUid()).child(userid).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
