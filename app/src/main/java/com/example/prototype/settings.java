@@ -118,7 +118,10 @@ public class settings extends AppCompatActivity {
 
 
     public void toSwipe(View view) {
-        startActivity(new Intent(this, SwipeActivity.class));
+        // terminates current activity to go back to previous activity
+        finish();
+
+       // startActivity(new Intent(this, SwipeActivity.class));
     }
 
 }
