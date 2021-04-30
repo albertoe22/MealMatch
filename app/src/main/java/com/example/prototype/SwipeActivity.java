@@ -89,6 +89,8 @@ public class SwipeActivity extends AppCompatActivity {
 
     private String placeurl;
     private double lat, lon;
+    public static double lati;
+    public static double longi;
     private String currentUId;
     private HashMap<String,List<String>> map = new HashMap<>();
     // access realtime database
@@ -405,14 +407,16 @@ public class SwipeActivity extends AppCompatActivity {
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             // When location service is enabled
-            //GEt last location
+            //Get last location
             fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
                 Location location = task.getResult();
                 if (location != null) {
                     // When location result is not null
                     // set latitude
                     lat = location.getLatitude();
+                    lati=lat;
                     lon = location.getLongitude();
+                    longi=lon;
                     jsonParse();
 
                 } else {

@@ -50,10 +50,6 @@ public class setDistance extends AppCompatActivity {
         });
 
     }
-    //SeekBar seekBar= (SeekBar) findViewById(R.id.seekBar);
-
-    //seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
 
 
 
@@ -63,7 +59,6 @@ public class setDistance extends AppCompatActivity {
         progress = seekBar.getProgress();
         Toast.makeText(setDistance.this,"Distance set to "+progress+" kilometer(s).", Toast.LENGTH_LONG).show();
         SwipeActivity.globalRadius = progress * 1000;
-        //Toast.makeText(setDistance.this,"static variable globaclradius = "+SwipeActivity.globalRadius, Toast.LENGTH_LONG).show();
 
     }
 
