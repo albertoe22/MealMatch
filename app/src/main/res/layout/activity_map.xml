@@ -80,6 +80,7 @@
         android:clickable="true"
         android:focusable="true"
         android:contentDescription="@string/back"
+        android:onClick="toSwipe"
         app:backgroundTint="#F44336"
         app:layout_constraintBottom_toBottomOf="@+id/mapView"
         app:layout_constraintEnd_toEndOf="parent"
