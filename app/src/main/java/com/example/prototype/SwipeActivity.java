@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +80,6 @@ public class SwipeActivity extends AppCompatActivity {
     String apiKey = "AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
     private ArrayList<String> placeIds = new ArrayList<>();
     private List<List<Double>> latlon = new ArrayList<>();
-    private cards cards_data[];
     private List<String> addresses = new ArrayList<>();
     private arrayAdapter arrayAdapter;
 
@@ -92,7 +92,8 @@ public class SwipeActivity extends AppCompatActivity {
     public static double lati;
     public static double longi;
     private String currentUId;
-    private HashMap<String,List<String>> map = new HashMap<>();
+    // Using a linked hash map because it keeps the order of entry
+    private LinkedHashMap<String,List<String>> map = new LinkedHashMap<String, List<String>>();
     // access realtime database
     private DatabaseReference usersDb;
     private FirebaseAuth mAuth;
@@ -122,7 +123,7 @@ public class SwipeActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -135,11 +136,11 @@ public class SwipeActivity extends AppCompatActivity {
                     // Afterwards add the card into the rowItems
                     for (Map.Entry mapElement : map.entrySet()) {
                         String key = (String) mapElement.getKey();
-                        List<String> value = new ArrayList<>();
+                        List<String> value;
                         value = (List<String>) mapElement.getValue();
                         cards item = new cards(key, value, placeIds.get(i),latlon.get(i), addresses.get(i));
+                        System.out.println("Name: " + key + " address: " + addresses.get(i) + " imageurl " +value );
                         rowItems.add(item);
-
                         i++;
                     }
 
@@ -322,7 +323,7 @@ public class SwipeActivity extends AppCompatActivity {
                                 String address = jsonObject.getString("formatted_address");
                                 double lat = jsonObject.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
                                 double lon = jsonObject.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
-                                System.out.println("lat= " + lat + " lon= " + lon);
+
                                 // Put into list lon and latitude into a
                                 List<Double> list2 = new ArrayList<>();
                                 list2.add(lat);
