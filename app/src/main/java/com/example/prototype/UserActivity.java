@@ -30,6 +30,8 @@ public class UserActivity extends AppCompatActivity {
     private DatabaseReference friendRequestData;
     private FirebaseUser current;
     private DatabaseReference FriendList;
+    private DatabaseReference userDatabase2;
+    public users u;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,12 @@ public class UserActivity extends AppCompatActivity {
         String userid = getIntent().getStringExtra("user_id");
         userDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
         friendRequestData = FirebaseDatabase.getInstance().getReference().child("FriendRequestDatabase");
+        userDatabase2 = FirebaseDatabase.getInstance().getReference("users");
+        String em = userDatabase2.child(userid).child("email").toString();
+        String f = userDatabase2.child(userid).child("fname").toString();
+        String l = userDatabase2.child(userid).child("lname").toString();
+        System.out.println(em);
+        u = new users(em,f,l);
         email = (TextView) findViewById(R.id.Email);
         fname = (TextView) findViewById(R.id.Firstname);
         lname = (TextView) findViewById(R.id.Lastname);
@@ -126,11 +134,11 @@ public class UserActivity extends AppCompatActivity {
                     });
                 }
                 //ACCEPT REQUEST
-                if(friendStatus==2){
-                    FriendList.child(current.getUid()).child(userid).child("random:").setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                if(friendStatus==2){//you have to setvalue to a user class object so temp needs to be user class object 
+                    FriendList.child(current.getUid()).child(userid).setValue(u).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            FriendList.child(userid).child(current.getUid()).child("random:").setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            FriendList.child(userid).child(current.getUid()).setValue(current).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     friendRequestData.child(current.getUid()).child(userid).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -155,5 +163,19 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public users GetUser(String id){
+        userDatabase2.child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                u = snapshot.getValue(users.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return u;
     }
 }

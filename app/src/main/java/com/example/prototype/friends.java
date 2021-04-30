@@ -52,13 +52,13 @@ public class friends extends AppCompatActivity {
 
     }
     public void DisplayFriends(){
-        FirebaseRecyclerAdapter<users,userHolder> listofFriends = new FirebaseRecyclerAdapter<users, userHolder>(users.class,R.layout.activity_profile,userHolder.class,myFriendsDatabase) {
+        FirebaseRecyclerAdapter<users,userHolder> listOfFriends = new FirebaseRecyclerAdapter<users, userHolder>(users.class,R.layout.activity_profile,userHolder.class,myFriendsDatabase) {
             @Override
             protected void populateViewHolder(userHolder profileHolder, users users, int i) {
-                profileHolder.setUserInfo(users.getEmail());
+                profileHolder.setUserEmail(users.getEmail());
             }
         };
-        myFriends.setAdapter(listofFriends);
+        myFriends.setAdapter(listOfFriends);
     }
     public static class userHolder extends RecyclerView.ViewHolder{
         View view;
@@ -66,7 +66,7 @@ public class friends extends AppCompatActivity {
             super(itemView);
             view = itemView;
         }
-        public void setUserInfo(String userEmail){
+        public void setUserEmail(String userEmail){
             TextView email1 = (TextView) view.findViewById(R.id.emailDisplay);
 
             email1.setText(userEmail);
