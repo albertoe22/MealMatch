@@ -30,7 +30,6 @@ public class UserActivity extends AppCompatActivity {
     private DatabaseReference friendRequestData;
     private FirebaseUser current;
     private DatabaseReference FriendList;
-    private DatabaseReference userDatabase2;
     public users u;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +38,6 @@ public class UserActivity extends AppCompatActivity {
         String userid = getIntent().getStringExtra("user_id");
         userDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
         friendRequestData = FirebaseDatabase.getInstance().getReference().child("FriendRequestDatabase");
-        userDatabase2 = FirebaseDatabase.getInstance().getReference("users");
-        String em = userDatabase2.child(userid).child("email").toString();
-        String f = userDatabase2.child(userid).child("fname").toString();
-        String l = userDatabase2.child(userid).child("lname").toString();
-        System.out.println(em);
-        u = new users(em,f,l);
         email = (TextView) findViewById(R.id.Email);
         fname = (TextView) findViewById(R.id.Firstname);
         lname = (TextView) findViewById(R.id.Lastname);
@@ -63,7 +56,7 @@ public class UserActivity extends AppCompatActivity {
                 email.setText(userEmail);
                 fname.setText(first);
                 lname.setText(last);
-
+                u = new users(userEmail,first,last);
                 //Friends list
                 friendRequestData.child(current.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -163,19 +156,5 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
-    }
-    public users GetUser(String id){
-        userDatabase2.child(id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                u = snapshot.getValue(users.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return u;
     }
 }
