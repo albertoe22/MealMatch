@@ -414,9 +414,10 @@ public class SwipeActivity extends AppCompatActivity {
                     // When location result is not null
                     // set latitude
                     lat = location.getLatitude();
-                    lati=lat;
+                    //lati=lat;
                     lon = location.getLongitude();
-                    longi=lon;
+                    //longi=lon;
+                    System.out.println("I'm at "+lat+" "+lon);
                     jsonParse();
 
                 } else {
@@ -434,6 +435,7 @@ public class SwipeActivity extends AppCompatActivity {
                             // Initialize location
                             lat = (location1.getLatitude());
                             lon = (location1.getLongitude());
+
                         }
 
                     };
