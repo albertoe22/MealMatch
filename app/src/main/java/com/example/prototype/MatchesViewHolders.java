@@ -23,9 +23,8 @@ public class MatchesViewHolders extends RecyclerView.ViewHolder implements View.
     }
     @Override
     public void onClick(View v) {
-        String url = "https://www.google.com/maps/search/?api=1&query=...&query_place_id=...";
+        String url = ( "https://www.google.com/maps/search/?api=1&query=" + lat + "," + lon + "&query_place_id=" + placeId );
         Uri uri = Uri.parse(url);
-        //https://www.google.com/maps/search/?api=1&query=47.5951518,-122.3316393&query_place_id=ChIJKxjxuaNqkFQR3CK6O1HNNqY
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         v.getContext().startActivity(intent);
     }
