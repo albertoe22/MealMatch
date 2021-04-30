@@ -26,23 +26,31 @@ public class UserActivity extends AppCompatActivity {
     private TextView lname;
     private Button sendRequest;
     private DatabaseReference userDatabase;
+    private DatabaseReference userDatabase2;
     private int friendStatus;
     private DatabaseReference friendRequestData;
     private FirebaseUser current;
     private DatabaseReference FriendList;
     public users u;
+    public users u2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         String userid = getIntent().getStringExtra("user_id");
         userDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
+        userDatabase2 = FirebaseDatabase.getInstance().getReference().child("users").child(current.getUid());
         friendRequestData = FirebaseDatabase.getInstance().getReference().child("FriendRequestDatabase");
         email = (TextView) findViewById(R.id.Email);
         fname = (TextView) findViewById(R.id.Firstname);
         lname = (TextView) findViewById(R.id.Lastname);
         sendRequest = (Button) findViewById(R.id.sendRequest);
         FriendList = FirebaseDatabase.getInstance().getReference().child("FriendList");
+        String cfirst = userDatabase2.child("fname").toString();
+        String clast = userDatabase2.child("lname").toString();
+        String cemail = userDatabase2.child("email").toString();
+        System.out.println("test:"+ cemail);
+        u2 = new users(cemail,cfirst,clast);
         //0 = not friends
         friendStatus = 0;
         current = FirebaseAuth.getInstance().getCurrentUser();
@@ -56,7 +64,7 @@ public class UserActivity extends AppCompatActivity {
                 email.setText(userEmail);
                 fname.setText(first);
                 lname.setText(last);
-                u = new users(userEmail,first,last);
+                u = new users(email.getText().toString(),fname.getText().toString(),lname.getText().toString());
                 //Friends list
                 friendRequestData.child(current.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -131,7 +139,7 @@ public class UserActivity extends AppCompatActivity {
                     FriendList.child(current.getUid()).child(userid).setValue(u).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            FriendList.child(userid).child(current.getUid()).setValue(current).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            FriendList.child(userid).child(current.getUid()).setValue(u2).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     friendRequestData.child(current.getUid()).child(userid).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
