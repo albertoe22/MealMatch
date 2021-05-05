@@ -55,6 +55,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
     //bigOof.add(oof);
 
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
@@ -69,6 +70,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
             gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(LA, zoomLevel));
             //gmap.moveCamera(CameraUpdateFactory.newLatLng(LA));
         }
+
+
 
 
         //ArrayList<MapMarkerObject> markers = getDataSetMatches();
@@ -134,7 +137,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
                         name = snapshot.child("name").getValue().toString();
                     }
                     // If the address value is not null, get address from the database
-                    /*if (snapshot.child("address").getValue(String.class) != null) {
+/*                    if (snapshot.child("address").getValue(String.class) != null) {
                         address = snapshot.child("address").getValue().toString();
                     }*/
 
@@ -177,7 +180,10 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void toSwipe(View view) {
-        startActivity(new Intent(this, SwipeActivity.class));
+        // terminates current activity to go back to previous activity
+        finish();
+
+        //startActivity(new Intent(this, SwipeActivity.class));
     }
 
 
