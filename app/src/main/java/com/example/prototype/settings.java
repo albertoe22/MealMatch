@@ -115,7 +115,9 @@ public class settings extends AppCompatActivity {
         FirebaseAuth.getInstance().sendPasswordResetEmail(email);
     }
 
-
+    public void contactUs(View view){
+        Toast.makeText(settings.this,"Feel free to contact us at 491MealMatch@gmail.com!", Toast.LENGTH_LONG).show();
+    }
 
     public void toSwipe(View view) {
         // terminates current activity to go back to previous activity
