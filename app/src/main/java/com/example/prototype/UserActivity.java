@@ -39,18 +39,12 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user);
         String userid = getIntent().getStringExtra("user_id");
         userDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
-        userDatabase2 = FirebaseDatabase.getInstance().getReference().child("users").child(current.getUid());
         friendRequestData = FirebaseDatabase.getInstance().getReference().child("FriendRequestDatabase");
         email = (TextView) findViewById(R.id.Email);
         fname = (TextView) findViewById(R.id.Firstname);
         lname = (TextView) findViewById(R.id.Lastname);
         sendRequest = (Button) findViewById(R.id.sendRequest);
         FriendList = FirebaseDatabase.getInstance().getReference().child("FriendList");
-        String cfirst = userDatabase2.child("fname").toString();
-        String clast = userDatabase2.child("lname").toString();
-        String cemail = userDatabase2.child("email").toString();
-        System.out.println("test:"+ cemail);
-        u2 = new users(cemail,cfirst,clast);
         //0 = not friends
         friendStatus = 0;
         current = FirebaseAuth.getInstance().getCurrentUser();
@@ -135,7 +129,13 @@ public class UserActivity extends AppCompatActivity {
                     });
                 }
                 //ACCEPT REQUEST
-                if(friendStatus==2){//you have to setvalue to a user class object so temp needs to be user class object 
+                if(friendStatus==2){//you have to setvalue to a user class object so temp needs to be user class object
+                    userDatabase2 = FirebaseDatabase.getInstance().getReference().child("users").child(current.getUid());
+                    String firstName = userDatabase2.child("fname").toString();
+                    String lastName = userDatabase2.child("lname").toString();
+                    String email2 = userDatabase2.child("email").toString();
+
+                    u2 = new users(email2,firstName,lastName);
                     FriendList.child(current.getUid()).child(userid).setValue(u).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
