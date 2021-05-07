@@ -1,6 +1,7 @@
 package com.example.prototype;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -14,10 +15,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class UserActivity extends AppCompatActivity {
@@ -130,12 +133,18 @@ public class UserActivity extends AppCompatActivity {
                 }
                 //ACCEPT REQUEST
                 if(friendStatus==2){//you have to setvalue to a user class object so temp needs to be user class object
-                    userDatabase2 = FirebaseDatabase.getInstance().getReference().child("users").child(current.getUid());
-                    String firstName = userDatabase2.child("fname").toString();
-                    String lastName = userDatabase2.child("lname").toString();
-                    String email2 = userDatabase2.child("email").toString();
+                    userDatabase2 = FirebaseDatabase.getInstance().getReference("users");
+                    userDatabase2.child(current.getUid()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            u2 = snapshot.getValue(users.class);
+                        }
 
-                    u2 = new users(email2,firstName,lastName);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                     FriendList.child(current.getUid()).child(userid).setValue(u).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
