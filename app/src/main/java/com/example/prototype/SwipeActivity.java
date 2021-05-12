@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.libraries.places.api.Places;
@@ -82,31 +84,28 @@ public class SwipeActivity extends AppCompatActivity {
     private List<List<Double>> latlon = new ArrayList<>();
     private List<String> addresses = new ArrayList<>();
     private arrayAdapter arrayAdapter;
-
     private int count = 0;
     FusedLocationProviderClient fusedLocationProviderClient;
     private RequestQueue mQueue;
-
+    private ProgressBar progressBar;
     private String placeurl;
     private double lat, lon;
-    public static double lati;
-    public static double longi;
     private String currentUId;
     // Using a linked hash map because it keeps the order of entry
     private LinkedHashMap<String,List<String>> map = new LinkedHashMap<String, List<String>>();
     // access realtime database
     private DatabaseReference usersDb;
     private FirebaseAuth mAuth;
-
     static int globalRadius = 3000;
 
-    ListView listView;
+
     List<cards> rowItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mAuth = FirebaseAuth.getInstance();
         usersDb = FirebaseDatabase.getInstance().getReference().child("users");
@@ -123,7 +122,15 @@ public class SwipeActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
+                //progressBar.setVisibility(View.VISIBLE);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
+                });
                 Thread.sleep(2500);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -131,7 +138,9 @@ public class SwipeActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    progressBar.setVisibility(View.GONE);
                     int i = 0;
+
                     // For each entry in the hashmap get the name, imageUrl list, and placeId and put into a card object
                     // Afterwards add the card into the rowItems
                     for (Map.Entry mapElement : map.entrySet()) {
@@ -139,7 +148,7 @@ public class SwipeActivity extends AppCompatActivity {
                         List<String> value;
                         value = (List<String>) mapElement.getValue();
                         cards item = new cards(key, value, placeIds.get(i),latlon.get(i), addresses.get(i));
-                        System.out.println("Name: " + key + " address: " + addresses.get(i) + " imageurl " +value );
+                        //System.out.println("Name: " + key + " address: " + addresses.get(i) + " imageurl " +value );
                         rowItems.add(item);
                         i++;
                     }
@@ -154,7 +163,7 @@ public class SwipeActivity extends AppCompatActivity {
                         @Override
                         public void removeFirstObjectInAdapter() {
                             // this is the simplest way to delete an object from the Adapter (/AdapterView)
-                            Log.d("LIST", "removed object!");
+                            //Log.d("LIST", "removed object!");
                             rowItems.remove(0);
                             arrayAdapter.notifyDataSetChanged();
                         }
@@ -267,7 +276,7 @@ public class SwipeActivity extends AppCompatActivity {
                                         } else {
                                             // If it doesn't yet exist in the database show it as a possible restaurant match
                                             array[count] = placeId;
-                                            System.out.println(placeId);
+                                            //System.out.println(placeId);
                                             jsonParsePics(array[count]);
                                             count++;
                                         }
@@ -302,7 +311,7 @@ public class SwipeActivity extends AppCompatActivity {
     private void jsonParsePics(String placeId) {
 
         String detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeId + "&fields=name,rating,photos,place_id,geometry,formatted_address&key=AIzaSyDgMhZAjvbssW3MFNWJ5yTgoJkLj2PHQuc";
-        System.out.println(detailsUrl);
+        //System.out.println(detailsUrl);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, detailsUrl, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -418,7 +427,7 @@ public class SwipeActivity extends AppCompatActivity {
                     //lati=lat;
                     lon = location.getLongitude();
                     //longi=lon;
-                    System.out.println("I'm at "+lat+" "+lon);
+                    //System.out.println("I'm at "+lat+" "+lon);
                     jsonParse();
 
                 } else {
