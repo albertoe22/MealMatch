@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,12 +30,47 @@ public class settings extends AppCompatActivity {
 
     private static final String TAG = "";
     private FirebaseAuth mAuth;
+    int progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        SeekBar seekBar= (SeekBar) findViewById(R.id.seekBar1);
+        seekBar.setProgress(SwipeActivity.globalRadius/1000);
+        progress = seekBar.getProgress();
+        TextView text = findViewById(R.id.textView14);
+        text.setText("Current Distance is "+progress+" Kilometers.");
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                progress = seekBar.getProgress();
+                text.setText("Current Distance is "+progress+" Kilometers.");
+            }
+        });
+
     }
+    public void updateDistance(View view)
+    {
+        SeekBar seekBar= (SeekBar) findViewById(R.id.seekBar1);
+        progress = seekBar.getProgress();
+        Toast.makeText(settings.this,"Distance set to "+progress+" kilometer(s).", Toast.LENGTH_LONG).show();
+        System.out.println("TEST: " );
+        SwipeActivity.globalRadius = progress * 1000;
+
+    }
+
 
 
     public void signOut(View v) {
@@ -42,11 +79,10 @@ public class settings extends AppCompatActivity {
     }
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    //String email;
+
 
     String email = user.getEmail();
-    String uid = user.getUid();
-    String newEmail = "";
+
 
 
     public void toChangeEmail(View view) {
@@ -68,47 +104,6 @@ public class settings extends AppCompatActivity {
 
 
 
-
-//    public void updateEmail() {
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        user.updateEmail("user@example.com")
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//                            Log.d(TAG, "User email address updated.");
-//                        }
-//                    }
-//                });
-//    }
-
-//    // Get auth credentials from the user for re-authentication
-//    AuthCredential credential = EmailAuthProvider
-//            .getCredential(email, pass); // Current Login Credentials \\
-//    // Prompt the user to re-provide their sign-in credentials
-//        user.reauthenticate(credential)
-//            .addOnCompleteListener(new OnCompleteListener<Void>() {
-//        @Override
-//        public void onComplete(@NonNull Task<Void> task) {
-//            Log.d(TAG, "User re-authenticated.");
-//            //Now change your email address \\
-//            //----------------Code for Changing Email Address----------\\
-//            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//            user.updateEmail("user@example.com")
-//                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            if (task.isSuccessful()) {
-//                                Log.d(TAG, "User email address updated.");
-//                            }
-//                        }
-//                    });
-//        }
-//    });
-
-
-
     public void resetPassword(View view){
         Toast.makeText(settings.this,"Password Reset sent to "+email, Toast.LENGTH_LONG).show();
 
@@ -121,8 +116,10 @@ public class settings extends AppCompatActivity {
 
     public void toSwipe(View view) {
         // terminates current activity to go back to previous activity
+
         finish();
 
+        updateDistance(view);
        // startActivity(new Intent(this, SwipeActivity.class));
     }
 

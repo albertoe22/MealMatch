@@ -17,12 +17,10 @@
         android:textColor="#fff"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/changeUsernameText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/accountHeader"
@@ -34,69 +32,54 @@
         android:background="#FDFDFD"
         android:ems="10"
         android:text="Account Settings"
-        android:textSize="16sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settingsHeader" />
-
-    <TextView
-        android:id="@+id/changeUsernameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:text="Change Username"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/accountHeader"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/changeEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:onClick="toChangeEmail"
         android:text="Change Email Address"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeUsernameText" />
+        app:layout_constraintTop_toBottomOf="@+id/accountHeader" />
 
     <TextView
         android:id="@+id/setDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
-        android:onClick="toSetDistance"
         android:text="Change Distance"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/contactUs" />
 
     <TextView
         android:id="@+id/changePasswordText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
-        android:text="Reset Password"
         android:onClick="resetPassword"
+        android:text="Reset Password"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setDistance" />
+        app:layout_constraintTop_toBottomOf="@+id/changeEmail" />
 
     <TextView
         android:id="@+id/applicationHeader"
@@ -111,53 +94,74 @@
         app:layout_constraintBottom_toTopOf="@+id/settingsHeader"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <SeekBar
+        android:id="@+id/seekBar1"
+        android:layout_width="231dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="44dp"
+        android:max="10"
+        android:min="1"
+        android:onClick="updateDistance"
+        android:progress="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.177"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setDistance" />
 
-<!--    <TextView
-        android:id="@+id/changeNotifications"
+    <TextView
+        android:id="@+id/progressDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="16dp"
-        android:ems="10"
-        android:text="Sounds &amp; Notifications"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/button_sign_out"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeEmail" />-->
+        android:layout_marginTop="80dp"
 
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsHeader"
+        app:layout_constraintVertical_bias="0.289" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="227dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="3dp"
+        android:text="km"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.211"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setDistance" />
 
     <TextView
         android:id="@+id/resetMatches"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
-        android:text="Reset Matches"
         android:onClick="resetMatches"
+        android:text="Reset Matches"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changePasswordText"
-        app:layout_constraintVertical_bias="0.225" />
+        app:layout_constraintTop_toBottomOf="@+id/changePasswordText" />
 
     <TextView
         android:id="@+id/contactUs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
-        android:text="Contact Us"
         android:onClick="contactUs"
+        android:text="Contact Us"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resetMatches"
-        app:layout_constraintVertical_bias="0.225" />
+        app:layout_constraintTop_toBottomOf="@+id/resetMatches" />
 
     <Button
         android:id="@+id/button_sign_out"
@@ -194,5 +198,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
