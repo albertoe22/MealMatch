@@ -17,3 +17,5 @@ To install Meal Match on your Android Device follow these steps:
 
 2. Download the APK from the google drive below:
 > [Download Link](https://drive.google.com/file/d/1lzUYkx4e7UBESJiQEPeIbdYxVbr45a4u/view?usp=sharing)
+
+3. Accept all permissions when asked for Meal Match, it should now be installing on your Android Device.
